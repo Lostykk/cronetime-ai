@@ -79,7 +79,6 @@ export default function Precios({ onAbrirCuestionario }: { onAbrirCuestionario: 
 
                 <div className="p-8">
                   <h3 className="text-xl font-bold">{p.nombre}</h3>
-                  <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>{p.agentes}</p>
 
                   <div className="mt-6 flex items-baseline gap-2">
                     <span className="text-lg line-through" style={{ color: "var(--muted)" }}>US${precioMes}</span>
