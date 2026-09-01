@@ -1,0 +1,173 @@
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { AGENTES, type Agente } from "../data/agentes";
+import AgentAvatar from "./AgentAvatar";
+
+const RADIO = 420;
+const ANGULO_POR_CARTA = 360 / AGENTES.length;
+const AUTO_MS = 15000;
+
+function CartaAgente({ agente, i, indiceActivo, onOpen }: { agente: Agente; i: number; indiceActivo: number; onOpen: (a: Agente) => void }) {
+  let diff = i - indiceActivo;
+  const n = AGENTES.length;
+  if (diff > n / 2) diff -= n;
+  if (diff < -n / 2) diff += n;
+
+  const anguloRelativo = diff * ANGULO_POR_CARTA;
+  const esFrente = diff === 0;
+
+  return (
+    <div
+      className="absolute top-0 left-1/2"
+      style={{
+        width: 380,
+        marginLeft: -190,
+        transform: `rotateY(${anguloRelativo}deg) translateZ(${RADIO}px) scale(${esFrente ? 1 : 0.75})`,
+        opacity: esFrente ? 1 : 0.35,
+        filter: esFrente ? "none" : "blur(2px)",
+        transition: "all 1.2s cubic-bezier(0.32, 0.72, 0, 1)",
+        boxShadow: esFrente ? `0 0 80px -20px ${agente.color}` : "none",
+        pointerEvents: esFrente ? "auto" : "none",
+      }}
+    >
+      <div
+        className="rounded-2xl p-7 flex flex-col items-center text-center"
+        style={{ background: "var(--film-surface)", border: `1px solid ${esFrente ? agente.color + "66" : "var(--film-border)"}` }}
+      >
+        <AgentAvatar agente={agente} size={110} />
+        <h3 className="font-display text-3xl font-extrabold uppercase mt-4" style={{ letterSpacing: "-0.02em" }}>{agente.nombre}</h3>
+        <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>{agente.nicho}</p>
+        <p className="text-[15px] mt-4 leading-relaxed line-clamp-3">{agente.descripcion}</p>
+
+        <ul className="mt-5 space-y-1.5 text-left w-full">
+          {agente.hace.map((h) => (
+            <li key={h} className="flex items-center gap-2 text-[13px]">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ color: agente.color, flexShrink: 0 }}>
+                <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {h}
+            </li>
+          ))}
+        </ul>
+
+        <div className="w-full mt-5 pt-4" style={{ borderTop: "1px solid var(--film-border)" }}>
+          <div className="font-num text-3xl font-bold" style={{ color: "var(--projector)" }}>US${agente.precio}<span className="text-sm font-normal" style={{ color: "var(--muted)" }}>/mes</span></div>
+          <div className="text-[13px] mt-0.5" style={{ color: "var(--muted)" }}>+ US${agente.setup} instalación</div>
+        </div>
+
+        <button
+          onClick={() => onOpen(agente)}
+          className="w-full mt-5 py-3.5 rounded-xl font-semibold text-sm"
+          style={{ background: agente.color, color: "#0A0A0C" }}
+        >
+          Hablar con {agente.nombre}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => void }) {
+  const [indice, setIndice] = useState(0);
+  const [pausado, setPausado] = useState(false);
+  const timerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (pausado) return;
+    timerRef.current = window.setInterval(() => {
+      setIndice((i) => (i + 1) % AGENTES.length);
+    }, AUTO_MS);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [pausado]);
+
+  return (
+    <section className="relative min-h-screen flex flex-col items-center overflow-hidden pt-28 pb-16" style={{ background: "var(--film-black)" }}>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 70% 50% at 50% 15%, rgba(255,158,44,0.08), transparent 70%)" }}
+      />
+
+      <div className="relative z-20 max-w-4xl mx-auto px-6 text-center mb-20" style={{ position: "relative" }}>
+        {/* Bloque de texto: siempre arriba y legible, nunca tapado por el carrusel */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="font-display font-extrabold uppercase"
+          style={{ fontSize: "clamp(48px, 8vw, 110px)", lineHeight: 0.98, letterSpacing: "-0.03em" }}
+        >
+          Seis empleados<br />que nunca duermen
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="mt-7 text-lg max-w-2xl mx-auto"
+          style={{ color: "var(--muted)" }}
+        >
+          Agentes de inteligencia artificial entrenados para tu industria. Atienden tu WhatsApp las 24 horas, sin sueldo, sin licencias, sin días libres.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4"
+        >
+          <a href="#agentes" className="px-8 py-4 rounded-full font-semibold text-base" style={{ background: "var(--projector)", color: "#0A0A0C" }}>
+            Ver los agentes
+          </a>
+          <a href="#como-funciona" className="px-8 py-4 rounded-full font-semibold text-base" style={{ border: "1px solid var(--film-border)", color: "var(--bone)" }}>
+            Cómo funciona
+          </a>
+        </motion.div>
+      </div>
+
+      {/* Carrusel: siempre debajo del bloque de texto en el flujo normal, nunca position:absolute */}
+      <div
+        className="relative z-0 w-full flex-1 flex items-center justify-center"
+        style={{ position: "relative", perspective: 1600, minHeight: 640 }}
+        onMouseEnter={() => setPausado(true)}
+        onMouseLeave={() => setPausado(false)}
+      >
+        <button
+          onClick={() => setIndice((i) => (i - 1 + AGENTES.length) % AGENTES.length)}
+          className="absolute left-2 sm:left-8 z-20 w-11 h-11 rounded-full flex items-center justify-center text-xl"
+          style={{ background: "var(--film-surface)", border: "1px solid var(--film-border)", color: "var(--bone)" }}
+          aria-label="Agente anterior"
+        >
+          ‹
+        </button>
+        <button
+          onClick={() => setIndice((i) => (i + 1) % AGENTES.length)}
+          className="absolute right-2 sm:right-8 z-20 w-11 h-11 rounded-full flex items-center justify-center text-xl"
+          style={{ background: "var(--film-surface)", border: "1px solid var(--film-border)", color: "var(--bone)" }}
+          aria-label="Siguiente agente"
+        >
+          ›
+        </button>
+
+        <div className="relative" style={{ width: 380, height: 620, transformStyle: "preserve-3d" }}>
+          {AGENTES.map((a, i) => (
+            <CartaAgente key={a.id} agente={a} i={i} indiceActivo={indice} onOpen={onOpenAgente} />
+          ))}
+        </div>
+      </div>
+
+      <div className="relative z-10 flex gap-2.5 mt-8">
+        {AGENTES.map((a, i) => (
+          <button
+            key={a.id}
+            onClick={() => setIndice(i)}
+            className="w-2.5 h-2.5 rounded-full transition-all"
+            style={{ background: i === indice ? "var(--projector)" : "var(--film-border)" }}
+            aria-label={`Ver a ${a.nombre}`}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}

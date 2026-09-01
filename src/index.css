@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;700;800&family=Archivo+Expanded:wght@700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --film-black:    #0A0A0C;
+  --film-surface:  #131519;
+  --film-raised:   #1D2027;
+  --film-border:   #2A2E38;
+  --projector:     #FF9E2C;
+  --projector-dim: #B36F1C;
+  --screen-blue:   #4A9EFF;
+  --bone:          #EDE9E0;
+  --muted:         #8A8F9C;
+  --signal-red:    #FF4D4D;
+  --signal-green:  #3ECF8E;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: auto;
+  scrollbar-color: var(--film-border) var(--film-black);
+}
+
+body {
+  margin: 0;
+  background: var(--film-black);
+  color: var(--bone);
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: 'Archivo Expanded', 'Anton', sans-serif;
+  letter-spacing: -0.03em;
+}
+.font-num { font-family: 'Archivo', monospace; font-variant-numeric: tabular-nums; }
+
+::selection {
+  background: var(--projector);
+  color: var(--film-black);
+}
+
+.text-projector { color: var(--projector); }
+
+/* ── grano de film ── */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+@keyframes grain {
+  0%, 100% { transform: translate(0,0) }
+  10% { transform: translate(-2%,-3%) }
+  30% { transform: translate(3%,-2%) }
+  50% { transform: translate(-1%,2%) }
+  70% { transform: translate(2%,1%) }
+  90% { transform: translate(-3%,3%) }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
+}
+
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: #0A0A0C; }
+::-webkit-scrollbar-thumb {
+  background: #2A2E38;
+  border-radius: 6px;
+  border: 2px solid #0A0A0C;
+}
+::-webkit-scrollbar-thumb:hover { background: #FF9E2C; }

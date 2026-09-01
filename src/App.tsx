@@ -1,0 +1,62 @@
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import Nav from "./components/Nav";
+import Hero from "./components/Hero";
+import ComoFunciona from "./components/ComoFunciona";
+import Agentes from "./components/Agentes";
+import Comparacion from "./components/Comparacion";
+import Numeros from "./components/Numeros";
+import Testimonios from "./components/Testimonios";
+import Precios from "./components/Precios";
+import FAQ from "./components/FAQ";
+import CuestionarioSection from "./components/CuestionarioSection";
+import Footer from "./components/Footer";
+import DemoModal from "./components/DemoModal";
+import Cuestionario from "./components/Cuestionario";
+import { nichoDeAgente, type Agente } from "./data/agentes";
+
+export default function App() {
+  const [agenteAbierto, setAgenteAbierto] = useState<Agente | null>(null);
+  const [cuestionarioAbierto, setCuestionarioAbierto] = useState(false);
+  const [nichoPreseleccionado, setNichoPreseleccionado] = useState<string | undefined>(undefined);
+
+  function abrirCuestionario(nicho?: string) {
+    setNichoPreseleccionado(nicho);
+    setAgenteAbierto(null);
+    setCuestionarioAbierto(true);
+  }
+
+  return (
+    <div className="grain">
+      <Nav onEmpezar={() => abrirCuestionario()} />
+      <main>
+        <Hero onOpenAgente={setAgenteAbierto} />
+        <ComoFunciona />
+        <Agentes onOpenAgente={setAgenteAbierto} />
+        <Comparacion />
+        <Numeros />
+        <Testimonios />
+        <Precios onAbrirCuestionario={() => abrirCuestionario()} />
+        <FAQ />
+        <CuestionarioSection onEmpezar={() => abrirCuestionario()} />
+      </main>
+      <Footer />
+
+      <AnimatePresence>
+        {agenteAbierto && (
+          <DemoModal
+            agente={agenteAbierto}
+            onClose={() => setAgenteAbierto(null)}
+            onQuerer={(a) => abrirCuestionario(nichoDeAgente(a.nombre))}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {cuestionarioAbierto && (
+          <Cuestionario nichoInicial={nichoPreseleccionado} onClose={() => setCuestionarioAbierto(false)} />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
