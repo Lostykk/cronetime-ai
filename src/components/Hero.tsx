@@ -30,19 +30,32 @@ function CartaAgente({ agente, i, indiceActivo, onOpen }: { agente: Agente; i: n
         pointerEvents: esFrente ? "auto" : "none",
       }}
     >
+      {/* max-height compensa la magnificación de perspective(1600)+translateZ(RADIO): la tarjeta
+          frontal se ve ~1.36x más grande en pantalla que su tamaño real de layout, así que
+          64vh/62vh de layout renderizan como ~90vh/88vh reales — que es el objetivo pedido. */}
       <div
-        className="rounded-2xl p-7 flex flex-col items-center text-center"
-        style={{ background: "var(--film-surface)", border: `1px solid ${esFrente ? agente.color + "66" : "var(--film-border)"}` }}
+        className="card-agente rounded-2xl flex flex-col items-center text-center px-5 py-3 max-md:px-[16px] max-md:py-2.5 max-h-[64vh] max-md:max-h-[62vh] gap-[4px] max-md:gap-[3px]"
+        style={{
+          background: "var(--film-surface)",
+          border: `1px solid ${esFrente ? agente.color + "66" : "var(--film-border)"}`,
+          overflowY: "auto",
+          justifyContent: "space-between",
+        }}
       >
-        <AgentAvatar agente={agente} size={110} />
-        <h3 className="font-display text-3xl font-extrabold uppercase mt-4" style={{ letterSpacing: "-0.02em" }}>{agente.nombre}</h3>
-        <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>{agente.nicho}</p>
-        <p className="text-[15px] mt-4 leading-relaxed line-clamp-3">{agente.descripcion}</p>
+        <AgentAvatar agente={agente} size={54} />
+        <h3 className="font-display font-extrabold uppercase leading-none mt-1" style={{ letterSpacing: "-0.02em", fontSize: 22 }}>{agente.nombre}</h3>
+        <p className="leading-none" style={{ color: "var(--muted)", fontSize: 13 }}>{agente.nicho}</p>
+        <p
+          className="mt-1 leading-snug"
+          style={{ fontSize: 13, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}
+        >
+          {agente.descripcion}
+        </p>
 
-        <ul className="mt-5 space-y-1.5 text-left w-full">
-          {agente.hace.map((h) => (
-            <li key={h} className="flex items-center gap-2 text-[13px]">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ color: agente.color, flexShrink: 0 }}>
+        <ul className="mt-1 space-y-px text-left w-full">
+          {agente.hace.slice(0, 4).map((h) => (
+            <li key={h} className="flex items-center gap-2" style={{ fontSize: 12 }}>
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" style={{ color: agente.color, flexShrink: 0 }}>
                 <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               {h}
@@ -50,14 +63,16 @@ function CartaAgente({ agente, i, indiceActivo, onOpen }: { agente: Agente; i: n
           ))}
         </ul>
 
-        <div className="w-full mt-5 pt-4" style={{ borderTop: "1px solid var(--film-border)" }}>
-          <div className="font-num text-3xl font-bold" style={{ color: "var(--projector)" }}>US${agente.precio}<span className="text-sm font-normal" style={{ color: "var(--muted)" }}>/mes</span></div>
-          <div className="text-[13px] mt-0.5" style={{ color: "var(--muted)" }}>+ US${agente.setup} instalación</div>
+        <div className="w-full mt-1 pt-1" style={{ borderTop: "1px solid var(--film-border)" }}>
+          <div className="font-num font-bold leading-tight" style={{ color: "var(--projector)", fontSize: 28 }}>
+            US${agente.precio}<span className="font-normal" style={{ color: "var(--muted)", fontSize: 11 }}>/mes</span>
+          </div>
+          <div className="leading-none" style={{ color: "var(--muted)", fontSize: 11 }}>+ US${agente.setup} instalación</div>
         </div>
 
         <button
           onClick={() => onOpen(agente)}
-          className="w-full mt-5 py-3.5 rounded-xl font-semibold text-sm"
+          className="w-full mt-1 rounded-xl font-semibold text-sm py-2.5"
           style={{ background: agente.color, color: "#0A0A0C" }}
         >
           Hablar con {agente.nombre}
