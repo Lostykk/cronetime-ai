@@ -46,7 +46,7 @@ function CartaAgente({ agente, i, indiceActivo, onOpen, anchoCarta }: { agente: 
         <h3 className="font-display font-extrabold uppercase leading-none mt-1" style={{ letterSpacing: "-0.02em", fontSize: 22 }}>{agente.nombre}</h3>
         <p className="leading-none" style={{ color: "var(--muted)", fontSize: 13 }}>{agente.nicho}</p>
         <p
-          className="mt-1 leading-snug"
+          className="mt-1 leading-snug w-full"
           style={{ fontSize: 13, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}
         >
           {agente.descripcion}
