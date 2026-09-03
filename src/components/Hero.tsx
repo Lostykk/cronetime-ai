@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { AGENTES, type Agente } from "../data/agentes";
+import { useTranslation } from "react-i18next";
+import { AGENTES_BASE, type Agente } from "../data/agentes";
+import { useAgentes } from "../hooks/useAgentes";
 import AgentAvatar from "./AgentAvatar";
 
 const RADIO = 420;
-const ANGULO_POR_CARTA = 360 / AGENTES.length;
+const ANGULO_POR_CARTA = 360 / AGENTES_BASE.length;
 const AUTO_MS = 15000;
 
 function CartaAgente({ agente, i, indiceActivo, onOpen, anchoCarta }: { agente: Agente; i: number; indiceActivo: number; onOpen: (a: Agente) => void; anchoCarta: number }) {
+  const { t } = useTranslation();
   let diff = i - indiceActivo;
-  const n = AGENTES.length;
+  const n = AGENTES_BASE.length;
   if (diff > n / 2) diff -= n;
   if (diff < -n / 2) diff += n;
 
@@ -65,9 +68,9 @@ function CartaAgente({ agente, i, indiceActivo, onOpen, anchoCarta }: { agente: 
 
         <div className="w-full mt-1 pt-1" style={{ borderTop: "1px solid var(--film-border)" }}>
           <div className="font-num font-bold leading-tight" style={{ color: "var(--projector)", fontSize: 28 }}>
-            US${agente.precio}<span className="font-normal" style={{ color: "var(--muted)", fontSize: 11 }}>/mes</span>
+            US${agente.precio}<span className="font-normal" style={{ color: "var(--muted)", fontSize: 11 }}>{t("hero.perMes")}</span>
           </div>
-          <div className="leading-none" style={{ color: "var(--muted)", fontSize: 11 }}>+ US${agente.setup} instalación</div>
+          <div className="leading-none" style={{ color: "var(--muted)", fontSize: 11 }}>+ US${agente.setup} {t("hero.instalacionLabel")}</div>
         </div>
 
         <button
@@ -75,7 +78,7 @@ function CartaAgente({ agente, i, indiceActivo, onOpen, anchoCarta }: { agente: 
           className="w-full mt-1 rounded-xl font-semibold text-sm py-2.5"
           style={{ background: agente.color, color: "#0A0A0C" }}
         >
-          Hablar con {agente.nombre}
+          {t("hero.hablarCon", { nombre: agente.nombre })}
         </button>
       </div>
     </div>
@@ -83,6 +86,8 @@ function CartaAgente({ agente, i, indiceActivo, onOpen, anchoCarta }: { agente: 
 }
 
 export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => void }) {
+  const { t } = useTranslation();
+  const AGENTES = useAgentes();
   const [indice, setIndice] = useState(0);
   const [pausado, setPausado] = useState(false);
   const timerRef = useRef<number | null>(null);
@@ -130,7 +135,7 @@ export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => vo
           className="font-display font-extrabold uppercase"
           style={{ fontSize: "clamp(48px, 8vw, 110px)", lineHeight: 0.98, letterSpacing: "-0.03em" }}
         >
-          Seis empleados<br />que nunca duermen
+          {t("hero.title1")}<br />{t("hero.title2")}
         </motion.h1>
 
         <motion.p
@@ -140,7 +145,7 @@ export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => vo
           className="mt-7 text-lg max-w-2xl mx-auto"
           style={{ color: "var(--muted)" }}
         >
-          Agentes de inteligencia artificial entrenados para tu industria. Atienden tu WhatsApp las 24 horas, sin sueldo, sin licencias, sin días libres.
+          {t("hero.subtitle")}
         </motion.p>
 
         <motion.div
@@ -150,10 +155,10 @@ export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => vo
           className="mt-9 flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <a href="#agentes" className="px-8 py-4 rounded-full font-semibold text-base" style={{ background: "var(--projector)", color: "#0A0A0C" }}>
-            Ver los agentes
+            {t("hero.ctaVerAgentes")}
           </a>
           <a href="#como-funciona" className="px-8 py-4 rounded-full font-semibold text-base" style={{ border: "1px solid var(--film-border)", color: "var(--bone)" }}>
-            Cómo funciona
+            {t("hero.ctaComoFunciona")}
           </a>
         </motion.div>
       </div>
@@ -169,7 +174,7 @@ export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => vo
           onClick={() => setIndice((i) => (i - 1 + AGENTES.length) % AGENTES.length)}
           className="absolute left-2 sm:left-8 z-20 w-11 h-11 rounded-full flex items-center justify-center text-xl"
           style={{ background: "var(--film-surface)", border: "1px solid var(--film-border)", color: "var(--bone)" }}
-          aria-label="Agente anterior"
+          aria-label={t("hero.prevAria")}
         >
           ‹
         </button>
@@ -177,7 +182,7 @@ export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => vo
           onClick={() => setIndice((i) => (i + 1) % AGENTES.length)}
           className="absolute right-2 sm:right-8 z-20 w-11 h-11 rounded-full flex items-center justify-center text-xl"
           style={{ background: "var(--film-surface)", border: "1px solid var(--film-border)", color: "var(--bone)" }}
-          aria-label="Siguiente agente"
+          aria-label={t("hero.nextAria")}
         >
           ›
         </button>
@@ -196,7 +201,7 @@ export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => vo
             onClick={() => setIndice(i)}
             className="w-2.5 h-2.5 rounded-full transition-all"
             style={{ background: i === indice ? "var(--projector)" : "var(--film-border)" }}
-            aria-label={`Ver a ${a.nombre}`}
+            aria-label={t("hero.dotAria", { nombre: a.nombre })}
           />
         ))}
       </div>

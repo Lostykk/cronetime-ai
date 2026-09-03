@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
-const STATS: { valor: number; sufijo?: string; prefijo?: string; label: string; esTexto?: string }[] = [
-  { valor: 4, sufijo: "s", label: "Tiempo de respuesta promedio" },
-  { valor: 0, esTexto: "24/7", label: "Horas de atención" },
-  { valor: 0, label: "Mensajes sin responder" },
-  { valor: 365, label: "Días del año trabajando" },
+const STATS_BASE: { valor: number; sufijo?: string; esTexto?: string }[] = [
+  { valor: 4, sufijo: "s" },
+  { valor: 0, esTexto: "24/7" },
+  { valor: 0 },
+  { valor: 365 },
 ];
 
 function Counter({ valor, prefijo = "", sufijo = "", esTexto }: { valor: number; prefijo?: string; sufijo?: string; esTexto?: string }) {
@@ -36,19 +37,22 @@ function Counter({ valor, prefijo = "", sufijo = "", esTexto }: { valor: number;
 }
 
 export default function Numeros() {
+  const { t } = useTranslation();
+  const labels = t("numeros.labels", { returnObjects: true }) as string[];
+
   return (
     <section className="relative py-28 px-6 overflow-hidden" style={{ background: "var(--film-surface)" }}>
       <div className="relative max-w-6xl mx-auto grid sm:grid-cols-2 md:grid-cols-4 gap-10 text-center">
-        {STATS.map((s, i) => (
+        {STATS_BASE.map((s, i) => (
           <motion.div
-            key={s.label}
+            key={labels[i]}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
           >
             <Counter valor={s.valor} sufijo={s.sufijo} esTexto={s.esTexto} />
-            <p className="text-sm mt-3" style={{ color: "var(--muted)" }}>{s.label}</p>
+            <p className="text-sm mt-3" style={{ color: "var(--muted)" }}>{labels[i]}</p>
           </motion.div>
         ))}
       </div>

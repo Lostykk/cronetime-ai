@@ -1,17 +1,17 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PASOS = [
-  { icono: "🔍", titulo: "Nos contás tu negocio", texto: "Cargás el menú, la carta o el catálogo. Puede ser una foto." },
-  { icono: "⚡", titulo: "El agente aprende solo", texto: "En minutos conoce tus precios, horarios y reglas." },
-  { icono: "📱", titulo: "Se conecta a tu WhatsApp", texto: "Sin cambiar nada. Tus clientes escriben al mismo número." },
-  { icono: "🚀", titulo: "Vos controlás todo", texto: "Reservas, pedidos y avisos en tiempo real desde el panel." },
-];
+const ICONOS = ["🔍", "⚡", "📱", "🚀"];
 
 export default function ComoFunciona() {
+  const { t } = useTranslation();
+  const PASOS = (t("comoFunciona.pasos", { returnObjects: true }) as { titulo: string; texto: string }[]).map(
+    (p, i) => ({ ...p, icono: ICONOS[i] })
+  );
   const sectionRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
 
@@ -49,7 +49,7 @@ export default function ComoFunciona() {
     <section id="como-funciona" ref={sectionRef} className="py-28 px-6" style={{ background: "var(--film-black)" }}>
       <div className="max-w-3xl mx-auto text-center mb-20">
         <h2 className="font-display font-extrabold uppercase" style={{ fontSize: "clamp(32px,5vw,56px)", letterSpacing: "-0.02em" }}>
-          Funcionando en menos<br />de 48 horas
+          {t("comoFunciona.title1")}<br />{t("comoFunciona.title2")}
         </h2>
       </div>
 
@@ -66,7 +66,7 @@ export default function ComoFunciona() {
               >
                 {p.icono}
               </div>
-              <div className="font-num text-xs mt-4" style={{ color: "var(--projector)" }}>PASO {i + 1}</div>
+              <div className="font-num text-xs mt-4" style={{ color: "var(--projector)" }}>{t("comoFunciona.pasoLabel", { n: i + 1 })}</div>
               <h3 className="text-lg font-bold mt-1">{p.titulo}</h3>
               <p className="mt-1.5 text-sm" style={{ color: "var(--muted)" }}>{p.texto}</p>
             </div>

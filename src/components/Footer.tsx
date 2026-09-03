@@ -1,20 +1,24 @@
-import { AGENTES } from "../data/agentes";
-
-const COLUMNAS = [
-  { titulo: "Agentes", links: AGENTES.map((a) => ({ label: a.nombre, href: "#agentes" })) },
-  { titulo: "Empresa", links: [
-    { label: "Cómo funciona", href: "#como-funciona" },
-    { label: "Precios", href: "#precios" },
-    { label: "Empezar", href: "#cuestionario" },
-  ] },
-  { titulo: "Legal", links: [
-    { label: "Términos y condiciones", href: "#" },
-    { label: "Privacidad", href: "#" },
-    { label: "Cookies", href: "#" },
-  ] },
-];
+import { useTranslation } from "react-i18next";
+import { useAgentes } from "../hooks/useAgentes";
 
 export default function Footer() {
+  const { t } = useTranslation();
+  const AGENTES = useAgentes();
+
+  const COLUMNAS = [
+    { titulo: t("footer.columnas.agentesTitle"), links: AGENTES.map((a) => ({ label: a.nombre, href: "#agentes" })) },
+    { titulo: t("footer.columnas.empresaTitle"), links: [
+      { label: t("footer.columnas.comoFunciona"), href: "#como-funciona" },
+      { label: t("footer.columnas.precios"), href: "#precios" },
+      { label: t("footer.columnas.empezar"), href: "#cuestionario" },
+    ] },
+    { titulo: t("footer.columnas.legalTitle"), links: [
+      { label: t("footer.columnas.terminos"), href: "#" },
+      { label: t("footer.columnas.privacidad"), href: "#" },
+      { label: t("footer.columnas.cookies"), href: "#" },
+    ] },
+  ];
+
   return (
     <footer className="pt-20 pb-10 px-6" style={{ background: "var(--film-surface)", borderTop: "1px solid var(--film-border)" }}>
       <div className="max-w-6xl mx-auto">
@@ -23,7 +27,7 @@ export default function Footer() {
             <div className="font-display text-xl font-extrabold mb-3 uppercase">
               Crone<span className="text-projector">Time AI</span>
             </div>
-            <p className="text-sm max-w-[220px]" style={{ color: "var(--muted)" }}>Agentes de IA que atienden tu negocio por WhatsApp, las 24 horas.</p>
+            <p className="text-sm max-w-[220px]" style={{ color: "var(--muted)" }}>{t("footer.tagline")}</p>
             <div className="flex gap-3 mt-5">
               <a
                 href="https://instagram.com/ignaciocheca"
@@ -32,7 +36,7 @@ export default function Footer() {
                 className="text-xs px-3 py-1.5 rounded-full transition-colors"
                 style={{ border: "1px solid var(--film-border)", color: "var(--muted)" }}
               >
-                Instagram
+                {t("footer.instagramLabel")}
               </a>
             </div>
           </div>
@@ -52,7 +56,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 text-center text-xs" style={{ borderTop: "1px solid var(--film-border)", color: "var(--muted)" }}>
-          © 2026 CroneTime AI — Todos los agentes trabajan las 24 horas.
+          {t("footer.copyright")}
         </div>
       </div>
     </footer>

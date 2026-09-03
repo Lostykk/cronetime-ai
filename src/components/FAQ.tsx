@@ -1,25 +1,17 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-const PREGUNTAS = [
-  { p: "¿Cómo se conecta al WhatsApp de mi negocio?", r: "Vinculamos el agente a tu número de WhatsApp Business existente. No cambiás de número ni instalás nada del lado del cliente." },
-  { p: "¿Mis clientes saben que es una IA?", r: "El agente se presenta con nombre propio y responde de forma natural. Si en algún momento no puede resolver algo, deriva al encargado de inmediato." },
-  { p: "¿Qué pasa si el agente no sabe responder algo?", r: "Se disculpa, avisa que se lo pasa al encargado, y queda registrado en el panel como algo que necesita tu atención." },
-  { p: "¿Cuánto tiempo lleva la instalación?", r: "Menos de 48 horas desde que nos pasás la info de tu negocio hasta que el agente está respondiendo en tu WhatsApp real." },
-  { p: "¿Puedo cambiar la información del agente después?", r: "Sí, en cualquier momento desde el panel: menú, precios, horarios, reglas de la casa — todo editable." },
-  { p: "¿Funciona para cualquier tamaño de negocio?", r: "Sí. Desde un local con un solo dueño hasta cadenas con varias sucursales, cada plan escala según cuántos agentes necesites." },
-  { p: "¿Hay permanencia o contrato?", r: "No. Es un abono mensual sin permanencia. Solo pagás una vez la instalación inicial." },
-  { p: "¿Qué pasa si quiero cancelar?", r: "Cancelás cuando quieras desde el panel, sin penalidades ni preguntas." },
-];
+import { useTranslation } from "react-i18next";
 
 export default function FAQ() {
+  const { t } = useTranslation();
+  const PREGUNTAS = t("faq.items", { returnObjects: true }) as { p: string; r: string }[];
   const [abierta, setAbierta] = useState<number | null>(0);
 
   return (
     <section className="py-28 px-6" style={{ background: "var(--film-black)" }}>
       <div className="max-w-2xl mx-auto">
         <h2 className="font-display font-extrabold uppercase text-center mb-14" style={{ fontSize: "clamp(32px,5vw,52px)", letterSpacing: "-0.02em" }}>
-          Preguntas frecuentes
+          {t("faq.title")}
         </h2>
 
         <div className="space-y-3">

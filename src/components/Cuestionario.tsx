@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AGENTES, NICHOS, NICHO_A_AGENTE } from "../data/agentes";
+import { useTranslation } from "react-i18next";
+import { NICHOS_CODES, NICHO_A_AGENTE_ID } from "../data/agentes";
+import { useAgenteById } from "../hooks/useAgentes";
 import AgentAvatar from "./AgentAvatar";
 import { abrirWhatsApp } from "../lib/whatsapp";
 
 export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?: string; onClose: () => void }) {
+  const { t } = useTranslation();
   const [paso, setPaso] = useState(1);
   const [nombre, setNombre] = useState("");
   const [negocio, setNegocio] = useState("");
@@ -25,7 +28,7 @@ export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?:
     else setTerminado(true);
   }
 
-  const agenteAsignado = AGENTES.find((a) => a.nombre === NICHO_A_AGENTE[nicho]);
+  const agenteAsignado = useAgenteById(NICHO_A_AGENTE_ID[nicho]);
 
   return (
     <motion.div
@@ -45,7 +48,7 @@ export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?:
         className="relative w-full max-w-lg rounded-2xl p-8"
         style={{ background: "var(--film-surface)", border: "1px solid var(--film-border)" }}
       >
-        <button onClick={onClose} className="absolute top-5 right-5 text-2xl leading-none" style={{ color: "var(--muted)" }} aria-label="Cerrar">✕</button>
+        <button onClick={onClose} className="absolute top-5 right-5 text-2xl leading-none" style={{ color: "var(--muted)" }} aria-label={t("cuestionario.cerrarAria")}>✕</button>
 
         {!terminado ? (
           <>
@@ -57,19 +60,19 @@ export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?:
                 transition={{ duration: 0.4 }}
               />
             </div>
-            <p className="text-xs mb-2" style={{ color: "var(--muted)" }}>Paso {paso} de {total}</p>
+            <p className="text-xs mb-2" style={{ color: "var(--muted)" }}>{t("cuestionario.pasoDe", { paso, total })}</p>
 
             <div className="relative overflow-hidden" style={{ minHeight: 160 }}>
               <AnimatePresence mode="wait" initial={false}>
                 {paso === 1 && (
                   <motion.div key={1} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.3 }}>
-                    <h3 className="font-display text-2xl font-extrabold mb-5">¿Cómo te llamás?</h3>
+                    <h3 className="font-display text-2xl font-extrabold mb-5">{t("cuestionario.step1.pregunta")}</h3>
                     <input
                       autoFocus
                       value={nombre}
                       onChange={(e) => setNombre(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && siguiente()}
-                      placeholder="Tu nombre"
+                      placeholder={t("cuestionario.step1.placeholder")}
                       className="w-full px-5 py-4 rounded-xl text-base outline-none"
                       style={{ background: "var(--film-black)", border: "1px solid var(--film-border)", color: "var(--bone)" }}
                     />
@@ -77,13 +80,13 @@ export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?:
                 )}
                 {paso === 2 && (
                   <motion.div key={2} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.3 }}>
-                    <h3 className="font-display text-2xl font-extrabold mb-5">¿Cómo se llama tu negocio?</h3>
+                    <h3 className="font-display text-2xl font-extrabold mb-5">{t("cuestionario.step2.pregunta")}</h3>
                     <input
                       autoFocus
                       value={negocio}
                       onChange={(e) => setNegocio(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && siguiente()}
-                      placeholder="Nombre del negocio"
+                      placeholder={t("cuestionario.step2.placeholder")}
                       className="w-full px-5 py-4 rounded-xl text-base outline-none"
                       style={{ background: "var(--film-black)", border: "1px solid var(--film-border)", color: "var(--bone)" }}
                     />
@@ -91,20 +94,20 @@ export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?:
                 )}
                 {paso === 3 && (
                   <motion.div key={3} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.3 }}>
-                    <h3 className="font-display text-2xl font-extrabold mb-5">¿Qué rubro es?</h3>
+                    <h3 className="font-display text-2xl font-extrabold mb-5">{t("cuestionario.step3.pregunta")}</h3>
                     <div className="grid grid-cols-2 gap-2.5">
-                      {NICHOS.map((n) => (
+                      {NICHOS_CODES.map((code) => (
                         <button
-                          key={n}
-                          onClick={() => setNicho(n)}
+                          key={code}
+                          onClick={() => setNicho(code)}
                           className="px-4 py-3 rounded-xl text-sm font-medium text-left transition-colors"
                           style={
-                            nicho === n
+                            nicho === code
                               ? { background: "var(--projector)", color: "#0A0A0C" }
                               : { background: "var(--film-black)", border: "1px solid var(--film-border)", color: "var(--bone)" }
                           }
                         >
-                          {n}
+                          {t(`cuestionario.nichos.${code}`)}
                         </button>
                       ))}
                     </div>
@@ -112,13 +115,13 @@ export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?:
                 )}
                 {paso === 4 && (
                   <motion.div key={4} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.3 }}>
-                    <h3 className="font-display text-2xl font-extrabold mb-5">¿Qué es lo que más necesitás resolver?</h3>
+                    <h3 className="font-display text-2xl font-extrabold mb-5">{t("cuestionario.step4.pregunta")}</h3>
                     <textarea
                       autoFocus
                       value={necesidad}
                       onChange={(e) => setNecesidad(e.target.value)}
                       rows={3}
-                      placeholder="Contanos brevemente"
+                      placeholder={t("cuestionario.step4.placeholder")}
                       className="w-full px-5 py-4 rounded-xl text-base outline-none resize-none"
                       style={{ background: "var(--film-black)", border: "1px solid var(--film-border)", color: "var(--bone)" }}
                     />
@@ -134,7 +137,7 @@ export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?:
                   className="px-6 py-3.5 rounded-xl font-medium"
                   style={{ border: "1px solid var(--film-border)", color: "var(--bone)" }}
                 >
-                  Atrás
+                  {t("cuestionario.atras")}
                 </button>
               )}
               <button
@@ -143,7 +146,7 @@ export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?:
                 className="flex-1 py-3.5 rounded-xl font-semibold"
                 style={{ background: "var(--projector)", color: "#0A0A0C", opacity: puedeAvanzar ? 1 : 0.4 }}
               >
-                {paso < total ? "Siguiente" : "Ver mi agente"}
+                {paso < total ? t("cuestionario.siguiente") : t("cuestionario.verMiAgente")}
               </button>
             </div>
           </>
@@ -155,17 +158,25 @@ export default function Cuestionario({ nichoInicial, onClose }: { nichoInicial?:
               </div>
             )}
             <h3 className="font-display text-2xl font-extrabold">
-              {nombre.split(" ")[0]}, tu agente es {agenteAsignado?.nombre}
+              {t("cuestionario.resultado.titulo", { nombre: nombre.split(" ")[0], agente: agenteAsignado?.nombre ?? "" })}
             </h3>
             <p className="mt-3" style={{ color: "var(--muted)" }}>
-              Escribinos y en 24 horas lo tenés funcionando en tu negocio.
+              {t("cuestionario.resultado.subtitulo")}
             </p>
             <button
-              onClick={() => abrirWhatsApp({ nombre, negocio, nicho, necesidad })}
+              onClick={() =>
+                abrirWhatsApp({
+                  nombre,
+                  negocio,
+                  nichoLabel: t(`cuestionario.nichos.${nicho}`),
+                  necesidad,
+                  agenteNombre: agenteAsignado?.nombre ?? "",
+                })
+              }
               className="w-full mt-7 py-4 rounded-xl font-semibold text-base flex items-center justify-center gap-2"
               style={{ background: "var(--signal-green)", color: "#0A0A0C" }}
             >
-              💬 Escribir por WhatsApp
+              💬 {t("cuestionario.resultado.whatsapp")}
             </button>
           </motion.div>
         )}

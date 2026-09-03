@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import ComoFunciona from "./components/ComoFunciona";
@@ -13,12 +14,19 @@ import CuestionarioSection from "./components/CuestionarioSection";
 import Footer from "./components/Footer";
 import DemoModal from "./components/DemoModal";
 import Cuestionario from "./components/Cuestionario";
-import { nichoDeAgente, type Agente } from "./data/agentes";
+import { nichoCodeDeAgenteId, type Agente } from "./data/agentes";
 
 export default function App() {
+  const { t, i18n } = useTranslation();
   const [agenteAbierto, setAgenteAbierto] = useState<Agente | null>(null);
   const [cuestionarioAbierto, setCuestionarioAbierto] = useState(false);
   const [nichoPreseleccionado, setNichoPreseleccionado] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.language;
+    document.title = t("meta.title");
+    document.querySelector('meta[name="description"]')?.setAttribute("content", t("meta.description"));
+  }, [i18n.language, t]);
 
   function abrirCuestionario(nicho?: string) {
     setNichoPreseleccionado(nicho);
@@ -47,7 +55,7 @@ export default function App() {
           <DemoModal
             agente={agenteAbierto}
             onClose={() => setAgenteAbierto(null)}
-            onQuerer={(a) => abrirCuestionario(nichoDeAgente(a.nombre))}
+            onQuerer={(a) => abrirCuestionario(nichoCodeDeAgenteId(a.id))}
           />
         )}
       </AnimatePresence>

@@ -1,8 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import type { Agente } from "../data/agentes";
-import { DEMOS, type MensajeDemo } from "../data/demos";
 import AgentAvatar from "./AgentAvatar";
+
+interface MensajeDemo {
+  de: "cliente" | "agente";
+  texto: string;
+}
+
+interface AccionDemo {
+  tipo: string;
+  titulo: string;
+  detalle: string;
+}
+
+interface EscenaDemo {
+  label: string;
+  mensajes: MensajeDemo[];
+  accion: AccionDemo;
+}
 
 function TypingDots() {
   return (
@@ -29,7 +46,8 @@ export default function DemoModal({
   onClose: () => void;
   onQuerer: (agente: Agente) => void;
 }) {
-  const escenasAgente = DEMOS[agente.id] || {};
+  const { t } = useTranslation();
+  const escenasAgente = t(`demos.${agente.id}`, { returnObjects: true, defaultValue: {} }) as Record<string, EscenaDemo>;
   const nombresEscenas = Object.keys(escenasAgente);
   const [escena, setEscena] = useState(nombresEscenas[0]);
   const [visibles, setVisibles] = useState<MensajeDemo[]>([]);
@@ -38,7 +56,7 @@ export default function DemoModal({
   const timeouts = useRef<number[]>([]);
 
   useEffect(() => {
-    timeouts.current.forEach((t) => clearTimeout(t));
+    timeouts.current.forEach((id) => clearTimeout(id));
     timeouts.current = [];
     setVisibles([]);
     setMostrarAccion(false);
@@ -68,7 +86,7 @@ export default function DemoModal({
       }
     });
 
-    return () => timeouts.current.forEach((t) => clearTimeout(t));
+    return () => timeouts.current.forEach((id) => clearTimeout(id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [escena, agente.id]);
 
@@ -98,7 +116,7 @@ export default function DemoModal({
             <h3 className="font-display text-2xl font-extrabold uppercase" style={{ letterSpacing: "-0.02em" }}>{agente.nombre}</h3>
             <p className="text-sm" style={{ color: "var(--muted)" }}>{agente.nicho}</p>
           </div>
-          <button onClick={onClose} className="text-2xl leading-none px-2" style={{ color: "var(--muted)" }} aria-label="Cerrar">✕</button>
+          <button onClick={onClose} className="text-2xl leading-none px-2" style={{ color: "var(--muted)" }} aria-label={t("demoModal.cerrarAria")}>✕</button>
         </div>
 
         <div className="p-6">
@@ -115,7 +133,7 @@ export default function DemoModal({
                       : { background: "var(--film-raised)", border: "1px solid var(--film-border)", color: "var(--muted)" }
                   }
                 >
-                  {n}
+                  {escenasAgente[n].label}
                 </button>
               ))}
             </div>
@@ -127,7 +145,7 @@ export default function DemoModal({
                 <AgentAvatar agente={agente} size={30} />
                 <div>
                   <div className="text-sm font-semibold">{agente.nombre}</div>
-                  <div className="text-[10px]" style={{ color: "var(--signal-green)" }}>en línea</div>
+                  <div className="text-[10px]" style={{ color: "var(--signal-green)" }}>{t("demoModal.enLinea")}</div>
                 </div>
               </div>
               <div className="flex-1 p-4 space-y-2.5 overflow-y-auto">
@@ -157,7 +175,7 @@ export default function DemoModal({
             </div>
 
             <div className="flex flex-col">
-              <p className="text-xs uppercase tracking-wide mb-3" style={{ color: "var(--muted)" }}>Panel del dueño</p>
+              <p className="text-xs uppercase tracking-wide mb-3" style={{ color: "var(--muted)" }}>{t("demoModal.panelDueno")}</p>
               <div className="rounded-2xl p-6 flex-1 flex items-center" style={{ background: "var(--film-black)", border: "1px solid var(--film-border)" }}>
                 <AnimatePresence mode="wait">
                   {mostrarAccion && accionActual ? (
@@ -174,7 +192,7 @@ export default function DemoModal({
                       <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>{accionActual.detalle}</p>
                     </motion.div>
                   ) : (
-                    <p className="text-sm" style={{ color: "var(--muted)" }}>Esperando que la conversación cierre en una acción…</p>
+                    <p className="text-sm" style={{ color: "var(--muted)" }}>{t("demoModal.esperando")}</p>
                   )}
                 </AnimatePresence>
               </div>
@@ -186,7 +204,7 @@ export default function DemoModal({
             className="w-full mt-6 py-4 rounded-xl font-semibold text-base flex items-center justify-center gap-2"
             style={{ background: agente.color, color: "#0A0A0C" }}
           >
-            Me interesa contratar a {agente.nombre} <span aria-hidden>→</span>
+            {t("demoModal.meInteresa", { nombre: agente.nombre })} <span aria-hidden>→</span>
           </button>
         </div>
       </motion.div>

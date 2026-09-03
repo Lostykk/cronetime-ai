@@ -1,0 +1,315 @@
+{
+  "meta": {
+    "title": "CroneTime AI — Agentes de IA para tu negocio | Atención 24/7",
+    "description": "6 agentes de IA especializados para restaurantes, inmobiliarias, clínicas, estéticas, finanzas y turismo. Atendé clientes por WhatsApp las 24 horas sin contratar personal."
+  },
+  "nav": {
+    "agentes": "Agentes",
+    "comoFunciona": "Cómo funciona",
+    "precios": "Precios",
+    "empezar": "Empezar",
+    "menuAria": "Menú"
+  },
+  "hero": {
+    "title1": "Seis empleados",
+    "title2": "que nunca duermen",
+    "subtitle": "Agentes de inteligencia artificial entrenados para tu industria. Atienden tu WhatsApp las 24 horas, sin sueldo, sin licencias, sin días libres.",
+    "ctaVerAgentes": "Ver los agentes",
+    "ctaComoFunciona": "Cómo funciona",
+    "prevAria": "Agente anterior",
+    "nextAria": "Siguiente agente",
+    "dotAria": "Ver a {{nombre}}",
+    "hablarCon": "Hablar con {{nombre}}",
+    "perMes": "/mes",
+    "instalacionLabel": "instalación"
+  },
+  "comoFunciona": {
+    "title1": "Funcionando en menos",
+    "title2": "de 48 horas",
+    "pasoLabel": "PASO {{n}}",
+    "pasos": [
+      { "titulo": "Nos contás tu negocio", "texto": "Cargás el menú, la carta o el catálogo. Puede ser una foto." },
+      { "titulo": "El agente aprende solo", "texto": "En minutos conoce tus precios, horarios y reglas." },
+      { "titulo": "Se conecta a tu WhatsApp", "texto": "Sin cambiar nada. Tus clientes escriben al mismo número." },
+      { "titulo": "Vos controlás todo", "texto": "Reservas, pedidos y avisos en tiempo real desde el panel." }
+    ]
+  },
+  "agentesSection": {
+    "title": "Elegí a tu agente",
+    "subtitle": "Tocá cualquier tarjeta para ver cómo responde de verdad.",
+    "verDemo": "Ver demo"
+  },
+  "agentes": {
+    "sofia": {
+      "nombre": "Sofía",
+      "nicho": "Restaurantes y bares",
+      "descripcion": "Atiende el WhatsApp de tu restaurante 24/7. Reservas, pedidos y quejas resueltas sola.",
+      "hace": ["Reservas automáticas", "Pedidos y delivery", "Consultas del menú", "Avisos de quejas", "Panel en tiempo real"],
+      "para": "Restaurantes, bares, cafés, parrillas, pizzerías y cualquier local gastronómico"
+    },
+    "marcos": {
+      "nombre": "Marcos",
+      "nicho": "Inmobiliarias",
+      "descripcion": "Califica leads inmobiliarios 24/7, agenda visitas y responde consultas de propiedades.",
+      "hace": ["Calificación de leads", "Agendado de visitas", "Consultas de propiedades", "Seguimiento automático", "CRM en tiempo real"],
+      "para": "Inmobiliarias, desarrolladoras, agentes independientes y portales de propiedades"
+    },
+    "maria": {
+      "nombre": "María",
+      "nicho": "Salud",
+      "descripcion": "Gestiona la agenda de tu consultorio y responde dudas sobre tratamientos y costos.",
+      "hace": ["Turnos y agenda", "Info de tratamientos", "Recordatorios", "Seguimiento post-turno", "Gestión de cancelaciones"],
+      "para": "Dentistas, clínicas odontológicas, ortodoncistas y cualquier centro de salud"
+    },
+    "pia": {
+      "nombre": "Pía",
+      "nicho": "Estética y belleza",
+      "descripcion": "Agenda tratamientos de belleza y recuerda a tus clientes sus citas con anticipación.",
+      "hace": ["Agenda de turnos", "Info de tratamientos", "Recordatorios 24hs antes", "Seguimiento de clientes", "Venta de paquetes"],
+      "para": "Centros de estética, peluquerías, salones de uñas, spas y centros de bienestar"
+    },
+    "emanuel": {
+      "nombre": "Emanuel",
+      "nicho": "Finanzas",
+      "descripcion": "Responde consultas financieras, califica prospectos y agenda reuniones con asesores.",
+      "hace": ["Calificación de prospectos", "Info de productos", "Agenda con asesores", "Seguimiento de leads", "Alertas al equipo"],
+      "para": "Asesores financieros, contadores, gestorías, fintech y servicios de inversión"
+    },
+    "javier": {
+      "nombre": "Javier",
+      "nicho": "Turismo",
+      "descripcion": "Cotiza viajes y vehículos, agenda test drives y da seguimiento a cada prospecto.",
+      "hace": ["Presupuestos rápidos", "Agenda de test drives", "Info de destinos o modelos", "Seguimiento de prospectos", "Cierre de leads calientes"],
+      "para": "Agencias de viajes, concesionarias, rent-a-car, turismo aventura y aerolíneas"
+    }
+  },
+  "comparacion": {
+    "title1": "Lo que tenías vs lo que tenés",
+    "titleWith": "con",
+    "colSin": "Sin CroneTime AI",
+    "colCon": "Con CroneTime AI",
+    "filas": [
+      { "antes": "Mensajes sin responder a las 2 AM", "despues": "Atención instantánea las 24hs" },
+      { "antes": "Reservas perdidas en hora pico", "despues": "Cero reservas perdidas" },
+      { "antes": "El dueño pegado al teléfono", "despues": "Panel de control desde cualquier lado" },
+      { "antes": "Quejas que se enteran por Google", "despues": "Aviso en tiempo real para resolverlo" },
+      { "antes": "Solo atiende mientras está abierto", "despues": "Trabaja los 365 días del año" }
+    ]
+  },
+  "numeros": {
+    "labels": ["Tiempo de respuesta promedio", "Horas de atención", "Mensajes sin responder", "Días del año trabajando"]
+  },
+  "testimonios": {
+    "title": "Lo que dicen los que ya lo usan",
+    "usa": "Usa {{agente}}",
+    "items": [
+      { "agenteId": "sofia", "nombre": "Rodrigo Ibáñez", "negocio": "La Parrilla del Che", "ciudad": "Córdoba", "emoji": "🍽️", "texto": "Sofía nos recupera 3 o 4 mesas por semana que antes se perdían porque no llegábamos a contestar en hora pico. Solo con eso ya se paga sola." },
+      { "agenteId": "marcos", "nombre": "Valeria Sosa", "negocio": "Inmobiliaria Sosa & Asociados", "ciudad": "Rosario", "emoji": "🏠", "texto": "Marcos agenda las visitas solo. Yo llego a mostrar la propiedad y el cliente ya viene calificado, con el presupuesto claro y con ganas. Cambió todo." },
+      { "agenteId": "maria", "nombre": "Dra. Luciana Peralta", "negocio": "Clínica Dental Peralta", "ciudad": "Mendoza", "emoji": "🦷", "texto": "Antes perdía turnos porque no podía estar en el teléfono y en el consultorio al mismo tiempo. María lo resuelve. La agenda se llena sola." },
+      { "agenteId": "pia", "nombre": "Florencia Ávalos", "negocio": "Centro de Estética Lumière", "ciudad": "Tucumán", "emoji": "✨", "texto": "Mis clientas dicen que la atención mejoró muchísimo. Pía responde a cualquier hora, ofrece los paquetes en el momento justo y no se le escapa nada." },
+      { "agenteId": "emanuel", "nombre": "Lic. Martín Ferreyra", "negocio": "Ferreyra Inversiones", "ciudad": "Buenos Aires", "emoji": "📊", "texto": "Emanuel filtra los contactos que no están listos y me manda solo los que tienen intención real. Mi tiempo de cierre bajó a la mitad." },
+      { "agenteId": "javier", "nombre": "Cecilia Romero", "negocio": "Viajes Del Sol", "ciudad": "Salta", "emoji": "✈️", "texto": "Javier cotiza y genera urgencia mejor que cualquier vendedor que tuve. Cuando el cliente llega a hablar conmigo, ya quiere comprar." }
+    ]
+  },
+  "precios": {
+    "title": "Sin sorpresas. Sin letra chica.",
+    "mensual": "Mensual",
+    "anual": "Anual",
+    "descuentoAnualBadge": "-20%",
+    "masElegido": "MÁS ELEGIDO",
+    "ofertaBanner": "25% OFF si contratás hoy",
+    "perMes": "/mes",
+    "ahorras": "Ahorrás US${{amount}} por mes",
+    "instalacionUnica": "+ US${{amount}} de instalación única",
+    "elegir": "Elegir {{plan}}",
+    "ofertaLimitada": "Oferta válida por tiempo limitado",
+    "footnote": "Setup único, sin permanencia, cancelás cuando querés",
+    "planes": {
+      "starter": { "nombre": "Starter", "agentesLabel": "1 agente" },
+      "pro": { "nombre": "Pro", "agentesLabel": "3 agentes" },
+      "agencia": { "nombre": "Agencia", "agentesLabel": "6 agentes" }
+    }
+  },
+  "faq": {
+    "title": "Preguntas frecuentes",
+    "items": [
+      { "p": "¿Cómo se conecta al WhatsApp de mi negocio?", "r": "Vinculamos el agente a tu número de WhatsApp Business existente. No cambiás de número ni instalás nada del lado del cliente." },
+      { "p": "¿Mis clientes saben que es una IA?", "r": "El agente se presenta con nombre propio y responde de forma natural. Si en algún momento no puede resolver algo, deriva al encargado de inmediato." },
+      { "p": "¿Qué pasa si el agente no sabe responder algo?", "r": "Se disculpa, avisa que se lo pasa al encargado, y queda registrado en el panel como algo que necesita tu atención." },
+      { "p": "¿Cuánto tiempo lleva la instalación?", "r": "Menos de 48 horas desde que nos pasás la info de tu negocio hasta que el agente está respondiendo en tu WhatsApp real." },
+      { "p": "¿Puedo cambiar la información del agente después?", "r": "Sí, en cualquier momento desde el panel: menú, precios, horarios, reglas de la casa — todo editable." },
+      { "p": "¿Funciona para cualquier tamaño de negocio?", "r": "Sí. Desde un local con un solo dueño hasta cadenas con varias sucursales, cada plan escala según cuántos agentes necesites." },
+      { "p": "¿Hay permanencia o contrato?", "r": "No. Es un abono mensual sin permanencia. Solo pagás una vez la instalación inicial." },
+      { "p": "¿Qué pasa si quiero cancelar?", "r": "Cancelás cuando quieras desde el panel, sin penalidades ni preguntas." }
+    ]
+  },
+  "cuestionarioSection": {
+    "title1": "Tu próximo empleado",
+    "title2": "no duerme, no se enferma",
+    "title3": "y no pide vacaciones.",
+    "subtitle": "Contanos sobre tu negocio y te decimos qué agente necesitás.",
+    "cta": "Empezar ahora"
+  },
+  "cuestionario": {
+    "cerrarAria": "Cerrar",
+    "pasoDe": "Paso {{paso}} de {{total}}",
+    "step1": { "pregunta": "¿Cómo te llamás?", "placeholder": "Tu nombre" },
+    "step2": { "pregunta": "¿Cómo se llama tu negocio?", "placeholder": "Nombre del negocio" },
+    "step3": { "pregunta": "¿Qué rubro es?" },
+    "step4": { "pregunta": "¿Qué es lo que más necesitás resolver?", "placeholder": "Contanos brevemente" },
+    "nichos": {
+      "restaurante": "Restaurante",
+      "inmobiliaria": "Inmobiliaria",
+      "salud": "Salud",
+      "estetica": "Estética",
+      "finanzas": "Finanzas",
+      "turismo": "Turismo"
+    },
+    "atras": "Atrás",
+    "siguiente": "Siguiente",
+    "verMiAgente": "Ver mi agente",
+    "resultado": {
+      "titulo": "{{nombre}}, tu agente es {{agente}}",
+      "subtitulo": "Escribinos y en 24 horas lo tenés funcionando en tu negocio.",
+      "whatsapp": "Escribir por WhatsApp"
+    }
+  },
+  "demoModal": {
+    "cerrarAria": "Cerrar",
+    "enLinea": "en línea",
+    "panelDueno": "Panel del dueño",
+    "esperando": "Esperando que la conversación cierre en una acción…",
+    "meInteresa": "Me interesa contratar a {{nombre}}"
+  },
+  "demos": {
+    "sofia": {
+      "reserva": {
+        "label": "Reserva",
+        "mensajes": [
+          { "de": "cliente", "texto": "Hola! Tenés mesa para 4 el viernes a las 21?" },
+          { "de": "agente", "texto": "Hola! Sí, tengo disponible 🌿 ¿A nombre de quién la hago?" },
+          { "de": "cliente", "texto": "Martín Suárez" },
+          { "de": "agente", "texto": "Listo Martín, mesa para 4 el viernes a las 21hs. ¿Querés que reserve la vereda o adentro?" },
+          { "de": "cliente", "texto": "Adentro mejor" },
+          { "de": "agente", "texto": "Perfecto, quedó confirmada. Te esperamos!" }
+        ],
+        "accion": { "tipo": "RESERVA", "titulo": "Martín Suárez", "detalle": "4 personas · Viernes 21:00 · Salón interior" }
+      },
+      "pedido": {
+        "label": "Pedido",
+        "mensajes": [
+          { "de": "cliente", "texto": "Hola, quiero pedir 2 milanesas napolitanas para llevar" },
+          { "de": "agente", "texto": "Dale! 2 milanesas napolitanas te salen $29.800 en total. ¿Sumamos algo de postre o bebida?" },
+          { "de": "cliente", "texto": "Una copa de vino tinto" },
+          { "de": "agente", "texto": "Sumada 🍷 Quedan $34.600 en total. ¿Retirás vos o lo mandamos por delivery?" },
+          { "de": "cliente", "texto": "Paso a buscarlo" },
+          { "de": "agente", "texto": "Perfecto, en 25 minutos lo tenés listo para retirar." }
+        ],
+        "accion": { "tipo": "PEDIDO", "titulo": "2 milanesas + copa de vino", "detalle": "$34.600 · Retira en 25 min" }
+      },
+      "queja": {
+        "label": "Queja",
+        "mensajes": [
+          { "de": "cliente", "texto": "La comida llegó fría y encima el mozo nos ignoró toda la noche" },
+          { "de": "agente", "texto": "Uy, lamento muchísimo lo que pasó 🙏 Ya se lo estoy pasando al encargado para que te contacte." },
+          { "de": "cliente", "texto": "Espero que hagan algo, la pasamos mal" },
+          { "de": "agente", "texto": "Totalmente entendible. El encargado te escribe en un rato para resolverlo, no vas a quedar así." }
+        ],
+        "accion": { "tipo": "QUEJA ESCALADA", "titulo": "Comida fría + mala atención", "detalle": "Encargado avisado al instante" }
+      }
+    },
+    "marcos": {
+      "consulta": {
+        "label": "Consulta",
+        "mensajes": [
+          { "de": "cliente", "texto": "Hola, buscan departamentos de 2 ambientes en Palermo?" },
+          { "de": "agente", "texto": "Hola! Sí, tenemos 4 unidades disponibles en la zona. ¿Es para alquilar o comprar?" },
+          { "de": "cliente", "texto": "Para alquilar" },
+          { "de": "agente", "texto": "Perfecto. Los alquileres en Palermo van de $450.000 a $680.000 según metros y amenities. ¿Tenés un presupuesto en mente?" },
+          { "de": "cliente", "texto": "Hasta 550 mil" },
+          { "de": "agente", "texto": "Tengo 2 unidades que entran justo. ¿Querés que agende una visita esta semana?" }
+        ],
+        "accion": { "tipo": "LEAD CALIFICADO", "titulo": "Alquiler 2 amb Palermo", "detalle": "Presupuesto hasta $550.000 · Listo para visitar" }
+      }
+    },
+    "maria": {
+      "turno": {
+        "label": "Turno",
+        "mensajes": [
+          { "de": "cliente", "texto": "Buenas, cuánto sale una limpieza dental?" },
+          { "de": "agente", "texto": "Hola! La limpieza dental completa sale $28.000 e incluye pulido y flúor. ¿Querés agendar?" },
+          { "de": "cliente", "texto": "Sí, tienen algo esta semana?" },
+          { "de": "agente", "texto": "Tengo el jueves 10:30 o el viernes 16:00. ¿Cuál te queda mejor?" },
+          { "de": "cliente", "texto": "El jueves. Soy Lucía Fernández" },
+          { "de": "agente", "texto": "Listo Lucía, jueves 10:30. Vení 10 minutos antes con tu DNI." }
+        ],
+        "accion": { "tipo": "TURNO", "titulo": "Lucía Fernández", "detalle": "Limpieza dental · Jueves 10:30 · $28.000" }
+      }
+    },
+    "pia": {
+      "tratamiento": {
+        "label": "Tratamiento",
+        "mensajes": [
+          { "de": "cliente", "texto": "Hola! Hacen depilación definitiva?" },
+          { "de": "agente", "texto": "Hola! Sí, trabajamos con láser de diodo ✨ La sesión de piernas completas sale $45.000." },
+          { "de": "cliente", "texto": "Cuántas sesiones necesito?" },
+          { "de": "agente", "texto": "En general entre 6 y 8. Tenemos un paquete de 6 sesiones a $230.000, ahorrás casi $40.000." },
+          { "de": "cliente", "texto": "Me interesa! Puedo el sábado?" },
+          { "de": "agente", "texto": "Tengo sábado a las 11. ¿Me pasás tu nombre para agendarte?" }
+        ],
+        "accion": { "tipo": "TURNO + PAQUETE", "titulo": "Depilación láser", "detalle": "Paquete 6 sesiones · $230.000 · Sábado 11:00" }
+      }
+    },
+    "emanuel": {
+      "consulta": {
+        "label": "Consulta",
+        "mensajes": [
+          { "de": "cliente", "texto": "Buenas tardes, qué opciones tienen para invertir a plazo fijo?" },
+          { "de": "agente", "texto": "Buenas tardes. Trabajamos con plazos fijos tradicionales y fondos comunes de inversión. ¿Qué plazo tenés pensado?" },
+          { "de": "cliente", "texto": "Un año más o menos" },
+          { "de": "agente", "texto": "Para ese plazo hay opciones en pesos y en dólares con distintos perfiles de riesgo. ¿Querés que agende una llamada con un asesor para ver cuál se ajusta mejor?" },
+          { "de": "cliente", "texto": "Dale, mañana a la tarde" },
+          { "de": "agente", "texto": "Perfecto. ¿Me pasás tu nombre y un rango aproximado de inversión para que el asesor prepare las opciones?" }
+        ],
+        "accion": { "tipo": "REUNIÓN AGENDADA", "titulo": "Consulta de inversión", "detalle": "Plazo 12 meses · Asesor asignado · Mañana 16:00" }
+      }
+    },
+    "javier": {
+      "cotizacion": {
+        "label": "Cotización",
+        "mensajes": [
+          { "de": "cliente", "texto": "Hola! Cuánto sale un paquete a Cancún para 2 personas?" },
+          { "de": "agente", "texto": "Hola! Tenemos salidas en octubre desde $1.850.000 por persona, 7 noches all inclusive con aéreos ✈️" },
+          { "de": "cliente", "texto": "Incluye traslados?" },
+          { "de": "agente", "texto": "Sí, traslados in/out y asistencia al viajero incluidos. Quedan 6 lugares en la salida del 12 de octubre." },
+          { "de": "cliente", "texto": "Me interesa, cómo sigo?" },
+          { "de": "agente", "texto": "Te agendo con un asesor para armar el presupuesto final. ¿Tu nombre y un horario que te venga bien?" }
+        ],
+        "accion": { "tipo": "LEAD DE ALTO VALOR", "titulo": "Paquete Cancún x2", "detalle": "Salida 12 oct · $3.700.000 estimado · Asesor asignado" }
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Agentes de IA que atienden tu negocio por WhatsApp, las 24 horas.",
+    "instagramLabel": "Instagram",
+    "columnas": {
+      "agentesTitle": "Agentes",
+      "empresaTitle": "Empresa",
+      "legalTitle": "Legal",
+      "comoFunciona": "Cómo funciona",
+      "precios": "Precios",
+      "empezar": "Empezar",
+      "terminos": "Términos y condiciones",
+      "privacidad": "Privacidad",
+      "cookies": "Cookies"
+    },
+    "copyright": "© 2026 CroneTime AI — Todos los agentes trabajan las 24 horas."
+  },
+  "language": {
+    "label": "Idioma",
+    "es": "Español",
+    "en": "English",
+    "pt": "Português",
+    "fr": "Français"
+  }
+}

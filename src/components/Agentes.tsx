@@ -1,8 +1,13 @@
 import { motion } from "framer-motion";
-import { AGENTES, type Agente } from "../data/agentes";
+import { useTranslation } from "react-i18next";
+import type { Agente } from "../data/agentes";
+import { useAgentes } from "../hooks/useAgentes";
 import AgentAvatar from "./AgentAvatar";
 
 export default function Agentes({ onOpenAgente }: { onOpenAgente: (a: Agente) => void }) {
+  const { t } = useTranslation();
+  const AGENTES = useAgentes();
+
   return (
     <section id="agentes" className="py-28 px-6" style={{ background: "var(--film-surface)" }}>
       <div className="max-w-5xl mx-auto">
@@ -13,10 +18,10 @@ export default function Agentes({ onOpenAgente }: { onOpenAgente: (a: Agente) =>
           className="text-center max-w-2xl mx-auto mb-14"
         >
           <h2 className="font-display font-extrabold uppercase" style={{ fontSize: "clamp(32px,5vw,56px)", letterSpacing: "-0.02em" }}>
-            Elegí a tu agente
+            {t("agentesSection.title")}
           </h2>
           <p className="mt-4 text-lg" style={{ color: "var(--muted)" }}>
-            Tocá cualquier tarjeta para ver cómo responde de verdad.
+            {t("agentesSection.subtitle")}
           </p>
         </motion.div>
 
@@ -42,7 +47,7 @@ export default function Agentes({ onOpenAgente }: { onOpenAgente: (a: Agente) =>
               </div>
               <p className="text-sm mt-4 leading-relaxed" style={{ color: "var(--muted)" }}>{a.descripcion}</p>
               <div className="mt-4 text-sm font-semibold flex items-center gap-1.5" style={{ color: a.color }}>
-                Ver demo <span aria-hidden>→</span>
+                {t("agentesSection.verDemo")} <span aria-hidden>→</span>
               </div>
             </motion.button>
           ))}

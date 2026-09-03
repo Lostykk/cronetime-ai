@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const LINKS = [
-  { href: "#agentes", label: "Agentes" },
-  { href: "#como-funciona", label: "Cómo funciona" },
-  { href: "#precios", label: "Precios" },
-];
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Nav({ onEmpezar }: { onEmpezar: () => void }) {
+  const { t } = useTranslation();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const LINKS = [
+    { href: "#agentes", label: t("nav.agentes") },
+    { href: "#como-funciona", label: t("nav.comoFunciona") },
+    { href: "#precios", label: t("nav.precios") },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -39,23 +42,29 @@ export default function Nav({ onEmpezar }: { onEmpezar: () => void }) {
           ))}
         </div>
 
-        <button
-          onClick={onEmpezar}
-          className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold"
-          style={{ background: "var(--projector)", color: "#0A0A0C" }}
-        >
-          Empezar
-        </button>
+        <div className="hidden md:flex items-center gap-4">
+          <LanguageSwitcher />
+          <button
+            onClick={onEmpezar}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold"
+            style={{ background: "var(--projector)", color: "#0A0A0C" }}
+          >
+            {t("nav.empezar")}
+          </button>
+        </div>
 
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Menú"
-        >
-          <motion.span animate={{ rotate: open ? 45 : 0, y: open ? 6 : 0 }} className="w-6 h-0.5 block" style={{ background: "var(--bone)" }} />
-          <motion.span animate={{ opacity: open ? 0 : 1 }} className="w-6 h-0.5 block" style={{ background: "var(--bone)" }} />
-          <motion.span animate={{ rotate: open ? -45 : 0, y: open ? -6 : 0 }} className="w-6 h-0.5 block" style={{ background: "var(--bone)" }} />
-        </button>
+        <div className="flex md:hidden items-center gap-2">
+          <LanguageSwitcher />
+          <button
+            className="flex flex-col gap-1.5 p-2"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={t("nav.menuAria")}
+          >
+            <motion.span animate={{ rotate: open ? 45 : 0, y: open ? 6 : 0 }} className="w-6 h-0.5 block" style={{ background: "var(--bone)" }} />
+            <motion.span animate={{ opacity: open ? 0 : 1 }} className="w-6 h-0.5 block" style={{ background: "var(--bone)" }} />
+            <motion.span animate={{ rotate: open ? -45 : 0, y: open ? -6 : 0 }} className="w-6 h-0.5 block" style={{ background: "var(--bone)" }} />
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
@@ -78,7 +87,7 @@ export default function Nav({ onEmpezar }: { onEmpezar: () => void }) {
                 className="mt-3 text-center py-3 rounded-full font-semibold"
                 style={{ background: "var(--projector)", color: "#0A0A0C" }}
               >
-                Empezar
+                {t("nav.empezar")}
               </button>
             </div>
           </motion.div>
