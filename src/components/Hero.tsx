@@ -7,7 +7,7 @@ const RADIO = 420;
 const ANGULO_POR_CARTA = 360 / AGENTES.length;
 const AUTO_MS = 15000;
 
-function CartaAgente({ agente, i, indiceActivo, onOpen }: { agente: Agente; i: number; indiceActivo: number; onOpen: (a: Agente) => void }) {
+function CartaAgente({ agente, i, indiceActivo, onOpen, anchoCarta }: { agente: Agente; i: number; indiceActivo: number; onOpen: (a: Agente) => void; anchoCarta: number }) {
   let diff = i - indiceActivo;
   const n = AGENTES.length;
   if (diff > n / 2) diff -= n;
@@ -20,8 +20,8 @@ function CartaAgente({ agente, i, indiceActivo, onOpen }: { agente: Agente; i: n
     <div
       className="absolute top-0 left-1/2"
       style={{
-        width: 380,
-        marginLeft: -190,
+        width: anchoCarta,
+        marginLeft: -anchoCarta / 2,
         transform: `rotateY(${anguloRelativo}deg) translateZ(${RADIO}px) scale(${esFrente ? 1 : 0.75})`,
         opacity: esFrente ? 1 : 0.35,
         filter: esFrente ? "none" : "blur(2px)",
@@ -86,6 +86,23 @@ export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => vo
   const [indice, setIndice] = useState(0);
   const [pausado, setPausado] = useState(false);
   const timerRef = useRef<number | null>(null);
+
+  // La carta mide 380px en desktop, pero en pantallas angostas eso desborda
+  // el viewport: como body tiene overflow-x:hidden, el borde izquierdo queda
+  // recortado sin forma de hacer scroll hasta él. Achicamos la carta para que
+  // nunca sea más ancha que la pantalla (con 20px de margen a cada lado).
+  const anchoMax = 380;
+  const [anchoCarta, setAnchoCarta] = useState(() =>
+    typeof window === "undefined" ? anchoMax : Math.min(anchoMax, window.innerWidth - 40)
+  );
+
+  useEffect(() => {
+    function actualizarAncho() {
+      setAnchoCarta(Math.min(anchoMax, window.innerWidth - 40));
+    }
+    window.addEventListener("resize", actualizarAncho);
+    return () => window.removeEventListener("resize", actualizarAncho);
+  }, []);
 
   useEffect(() => {
     if (pausado) return;
@@ -165,9 +182,9 @@ export default function Hero({ onOpenAgente }: { onOpenAgente: (a: Agente) => vo
           ›
         </button>
 
-        <div className="relative" style={{ width: 380, height: 620, transformStyle: "preserve-3d" }}>
+        <div className="relative" style={{ width: anchoCarta, height: 620, transformStyle: "preserve-3d" }}>
           {AGENTES.map((a, i) => (
-            <CartaAgente key={a.id} agente={a} i={i} indiceActivo={indice} onOpen={onOpenAgente} />
+            <CartaAgente key={a.id} agente={a} i={i} indiceActivo={indice} onOpen={onOpenAgente} anchoCarta={anchoCarta} />
           ))}
         </div>
       </div>
