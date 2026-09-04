@@ -35,13 +35,19 @@ function CartaAgente({ agente, i, indiceActivo, onOpen, anchoCarta }: { agente: 
     >
       {/* max-height compensa la magnificación de perspective(1600)+translateZ(RADIO): la tarjeta
           frontal se ve ~1.36x más grande en pantalla que su tamaño real de layout, así que
-          64vh/62vh de layout renderizan como ~90vh/88vh reales — que es el objetivo pedido. */}
+          64svh/62svh de layout renderizan como ~90vh/88vh reales — que es el objetivo pedido.
+          svh (no vh): en iOS Safari, 1vh se calcula contra el viewport más grande posible (con
+          la barra de direcciones oculta) — con la barra visible (el estado normal al cargar la
+          página) el viewport real es más chico, así que una carta en vh puede terminar más alta
+          que la pantalla visible y tapar los ✔ y el botón. svh usa siempre el viewport más chico
+          posible, así la carta nunca excede lo que realmente se ve. */}
       <div
-        className="card-agente rounded-2xl flex flex-col items-center text-center px-5 py-3 max-md:px-[16px] max-md:py-2.5 max-h-[64vh] max-md:max-h-[62vh] gap-[4px] max-md:gap-[3px]"
+        className="card-agente rounded-2xl flex flex-col items-center text-center px-5 py-3 max-md:px-[16px] max-md:py-2.5 max-h-[64svh] max-md:max-h-[62svh] gap-[4px] max-md:gap-[3px]"
         style={{
           background: "var(--film-surface)",
           border: `1px solid ${esFrente ? agente.color + "66" : "var(--film-border)"}`,
           overflowY: "auto",
+          overflowX: "hidden",
           justifyContent: "space-between",
         }}
       >
