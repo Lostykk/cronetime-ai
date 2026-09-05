@@ -14,6 +14,7 @@ import CuestionarioSection from "./components/CuestionarioSection";
 import Footer from "./components/Footer";
 import DemoModal from "./components/DemoModal";
 import Cuestionario from "./components/Cuestionario";
+import SetterDemoPublica from "./pages/SetterDemoPublica";
 import { nichoCodeDeAgenteId, type Agente } from "./data/agentes";
 
 export default function App() {
@@ -21,17 +22,23 @@ export default function App() {
   const [agenteAbierto, setAgenteAbierto] = useState<Agente | null>(null);
   const [cuestionarioAbierto, setCuestionarioAbierto] = useState(false);
   const [nichoPreseleccionado, setNichoPreseleccionado] = useState<string | undefined>(undefined);
+  const esRutaSetter = window.location.pathname.replace(/\/+$/, "") === "/setter";
 
   useEffect(() => {
     document.documentElement.lang = i18n.language;
+    if (esRutaSetter) return;
     document.title = t("meta.title");
     document.querySelector('meta[name="description"]')?.setAttribute("content", t("meta.description"));
-  }, [i18n.language, t]);
+  }, [i18n.language, t, esRutaSetter]);
 
   function abrirCuestionario(nicho?: string) {
     setNichoPreseleccionado(nicho);
     setAgenteAbierto(null);
     setCuestionarioAbierto(true);
+  }
+
+  if (esRutaSetter) {
+    return <SetterDemoPublica />;
   }
 
   return (
