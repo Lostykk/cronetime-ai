@@ -31,11 +31,15 @@ function TypingDots() {
 
 export default function SetterDemoPublica() {
   const [sessionId] = useState(() => crypto.randomUUID());
-  const [fase, setFase] = useState<"ig" | "chat">("ig");
+  const [fase, setFase] = useState<"ig" | "configurar" | "chat">("ig");
   const [igInput, setIgInput] = useState("");
   const [analizando, setAnalizando] = useState(false);
   const [analisis, setAnalisis] = useState<Analisis | null>(null);
   const [errorIG, setErrorIG] = useState("");
+  const [mensajeBienvenida, setMensajeBienvenida] = useState("");
+  const [archivo, setArchivo] = useState<File | null>(null);
+  const [subiendoArchivo, setSubiendoArchivo] = useState(false);
+  const [errorArchivo, setErrorArchivo] = useState("");
   const [mensajes, setMensajes] = useState<Mensaje[]>([]);
   const [input, setInput] = useState("");
   const [enviando, setEnviando] = useState(false);
@@ -66,8 +70,8 @@ export default function SetterDemoPublica() {
       const data = await res.json();
 
       setAnalisis(data.analisis || null);
-      setFase("chat");
-      setMensajes([{ rol: "setter", texto: data.mensaje_bienvenida || "¡Hola! ¿En qué puedo ayudarte?" }]);
+      setMensajeBienvenida(data.mensaje_bienvenida || "¡Hola! ¿En qué puedo ayudarte?");
+      setFase("configurar");
     } catch {
       setErrorIG("Error de conexión. Intentá de nuevo.");
     } finally {
@@ -81,6 +85,33 @@ export default function SetterDemoPublica() {
       rol: "setter",
       texto: "¡Hola! Soy Martina, del equipo de Método Escala 👋 ¿En qué tipo de negocio o programa trabajás?",
     }]);
+  }
+
+  async function subirArchivoYContinuar() {
+    if (archivo) {
+      setSubiendoArchivo(true);
+      setErrorArchivo("");
+      try {
+        const formData = new FormData();
+        formData.append("session_id", sessionId);
+        formData.append("archivo", archivo);
+        const res = await fetch(`${API}/api/demo-publica/subir-conocimiento`, { method: "POST", body: formData });
+        const data = await res.json();
+        if (data.error) {
+          setErrorArchivo(data.error);
+          setSubiendoArchivo(false);
+          return;
+        }
+      } catch {
+        setErrorArchivo("Error de conexión al subir el archivo.");
+        setSubiendoArchivo(false);
+        return;
+      }
+      setSubiendoArchivo(false);
+    }
+
+    setFase("chat");
+    setMensajes([{ rol: "setter", texto: mensajeBienvenida }]);
   }
 
   async function enviar() {
@@ -161,7 +192,7 @@ export default function SetterDemoPublica() {
             <div className="text-sm font-semibold">Martina · Setter</div>
             <div className="text-[11px] flex items-center gap-1.5" style={{ color: "var(--signal-green)" }}>
               <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--signal-green)" }} />
-              {fase === "ig" ? "Configurando nicho..." : "En línea · responde al instante"}
+              {fase === "ig" || fase === "configurar" ? "Configurando nicho..." : "En línea · responde al instante"}
             </div>
           </div>
           {fase === "chat" && (
@@ -203,6 +234,42 @@ export default function SetterDemoPublica() {
 
             <button onClick={saltarIG} className="text-xs underline" style={{ color: "var(--muted)" }}>
               Saltar → chatear directamente con el Setter
+            </button>
+          </div>
+        )}
+
+        {fase === "configurar" && (
+          <div className="p-6">
+            <div className="text-sm font-bold mb-1.5" style={{ color: ACENTO }}>
+              📄 Personalizar el Setter (opcional)
+            </div>
+            <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--muted)" }}>
+              Subí tu guion o estructura de setting (PDF, DOCX o TXT) para que el Setter la siga al pie de la letra en esta demo.
+            </p>
+
+            <label
+              className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-sm cursor-pointer mb-2.5"
+              style={{ background: "var(--film-black)", border: `1px dashed ${ACENTO}44`, color: archivo ? ACENTO : "var(--muted)" }}
+            >
+              📎 {archivo ? archivo.name : "Elegí un archivo (máx. 10MB)"}
+              <input
+                type="file"
+                accept=".pdf,.docx,.doc,.txt"
+                className="hidden"
+                disabled={subiendoArchivo}
+                onChange={(e) => setArchivo(e.target.files?.[0] || null)}
+              />
+            </label>
+
+            {errorArchivo && <div className="text-xs mb-2" style={{ color: "var(--signal-red)" }}>{errorArchivo}</div>}
+
+            <button
+              onClick={subirArchivoYContinuar}
+              disabled={subiendoArchivo}
+              className="w-full py-2.5 rounded-xl font-bold text-sm"
+              style={{ background: ACENTO, color: "#0A0A0C", opacity: subiendoArchivo ? 0.6 : 1 }}
+            >
+              {subiendoArchivo ? "Procesando…" : archivo ? "🚀 Activar Setter personalizado" : "Continuar sin archivo"}
             </button>
           </div>
         )}
