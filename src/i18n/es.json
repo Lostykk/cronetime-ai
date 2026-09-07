@@ -11,7 +11,7 @@
     "menuAria": "Menú"
   },
   "hero": {
-    "title1": "Seis empleados",
+    "title1": "Siete empleados",
     "title2": "que nunca duermen",
     "subtitle": "Agentes de inteligencia artificial entrenados para tu industria. Atienden tu WhatsApp las 24 horas, sin sueldo, sin licencias, sin días libres.",
     "ctaVerAgentes": "Ver los agentes",
@@ -47,9 +47,9 @@
     ]
   },
   "agentesSection": {
-    "title": "Elegí a tu agente",
-    "subtitle": "Tocá cualquier tarjeta para ver cómo responde de verdad.",
-    "verDemo": "Ver demo"
+    "title": "Siete empleados que nunca duermen",
+    "subtitle": "Cada agente trabaja 24 horas, 7 días, sin vacaciones ni excusas. Uno para cada nicho. Todos con tu voz.",
+    "verDemo": "Hablar con {{nombre}}"
   },
   "agentes": {
     "sofia": {

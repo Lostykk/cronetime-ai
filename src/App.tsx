@@ -65,7 +65,7 @@ export default function App() {
       <main>
         <Hero onOpenAgente={setAgenteAbierto} />
         <ComoFunciona />
-        <Agentes onOpenAgente={setAgenteAbierto} />
+        <Agentes />
         <Comparacion />
         <Numeros />
         <Testimonios />
