@@ -16,6 +16,7 @@ export interface Agente extends AgenteBase {
 }
 
 export const AGENTES_BASE: AgenteBase[] = [
+  { id: "setter", emoji: "🎯", color: "#7655F5", colorSecundario: "#4D32C8", precio: 170, setup: 350 },
   { id: "sofia", emoji: "🍽️", color: "#F5B544", colorSecundario: "#8B4513", precio: 120, setup: 290 },
   { id: "marcos", emoji: "🏠", color: "#4A9EFF", colorSecundario: "#1E3A5F", precio: 150, setup: 320 },
   { id: "maria", emoji: "🦷", color: "#3ECF8E", colorSecundario: "#0B4D33", precio: 140, setup: 310 },
@@ -23,6 +24,17 @@ export const AGENTES_BASE: AgenteBase[] = [
   { id: "emanuel", emoji: "📊", color: "#B084FF", colorSecundario: "#3B0764", precio: 160, setup: 340 },
   { id: "javier", emoji: "✈️", color: "#FF9E2C", colorSecundario: "#78350F", precio: 150, setup: 320 },
 ];
+
+// Ruta de la página pública dedicada de cada agente (landing + demo en vivo).
+export const RUTA_AGENTE: Record<string, string> = {
+  setter: "/setter",
+  sofia: "/sofia-restaurantes",
+  marcos: "/marcos",
+  maria: "/maria",
+  pia: "/pia",
+  emanuel: "/emanuel",
+  javier: "/javier",
+};
 
 export const NICHO_A_AGENTE_ID: Record<string, string> = {
   restaurante: "sofia",

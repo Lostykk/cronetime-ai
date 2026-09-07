@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import type { Agente } from "../data/agentes";
+import { RUTA_AGENTE } from "../data/agentes";
 import { useAgentes } from "../hooks/useAgentes";
 import AgentAvatar from "./AgentAvatar";
 
@@ -27,29 +28,38 @@ export default function Agentes({ onOpenAgente }: { onOpenAgente: (a: Agente) =>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {AGENTES.map((a, i) => (
-            <motion.button
+            <motion.div
               key={a.id}
-              onClick={() => onOpenAgente(a)}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ delay: (i % 3) * 0.08, duration: 0.5 }}
-              whileHover={{ y: -4 }}
-              className="rounded-2xl p-6 text-left transition-shadow"
+              className="rounded-2xl p-6 text-left"
               style={{ background: "var(--film-raised)", border: "1px solid var(--film-border)" }}
             >
-              <div className="flex items-center gap-4">
-                <AgentAvatar agente={a} size={56} />
-                <div className="min-w-0">
-                  <div className="font-display text-lg font-bold uppercase" style={{ letterSpacing: "-0.01em" }}>{a.nombre}</div>
-                  <div className="text-sm truncate" style={{ color: "var(--muted)" }}>{a.nicho}</div>
+              <button onClick={() => (a.id === "setter" ? (window.location.href = RUTA_AGENTE[a.id]) : onOpenAgente(a))} className="w-full text-left">
+                <div className="flex items-center gap-4">
+                  <AgentAvatar agente={a} size={56} />
+                  <div className="min-w-0">
+                    <div className="font-display text-lg font-bold uppercase" style={{ letterSpacing: "-0.01em" }}>{a.nombre}</div>
+                    <div className="text-sm truncate" style={{ color: "var(--muted)" }}>{a.nicho}</div>
+                  </div>
                 </div>
-              </div>
-              <p className="text-sm mt-4 leading-relaxed" style={{ color: "var(--muted)" }}>{a.descripcion}</p>
-              <div className="mt-4 text-sm font-semibold flex items-center gap-1.5" style={{ color: a.color }}>
-                {t("agentesSection.verDemo")} <span aria-hidden>→</span>
-              </div>
-            </motion.button>
+                <p className="text-sm mt-4 leading-relaxed" style={{ color: "var(--muted)" }}>{a.descripcion}</p>
+                <div className="mt-4 text-sm font-semibold flex items-center gap-1.5" style={{ color: a.color }}>
+                  {t("agentesSection.verDemo")} <span aria-hidden>→</span>
+                </div>
+              </button>
+              {RUTA_AGENTE[a.id] && (
+                <a
+                  href={RUTA_AGENTE[a.id]}
+                  className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg"
+                  style={{ background: "var(--film-black)", border: "1px solid var(--film-border)", color: "var(--muted)" }}
+                >
+                  Hablar con {a.nombre} en vivo →
+                </a>
+              )}
+            </motion.div>
           ))}
         </div>
       </div>

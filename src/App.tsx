@@ -15,21 +15,35 @@ import Footer from "./components/Footer";
 import DemoModal from "./components/DemoModal";
 import Cuestionario from "./components/Cuestionario";
 import SetterDemoPublica from "./pages/SetterDemoPublica";
+import AgentLanding from "./pages/AgentLanding";
 import { nichoCodeDeAgenteId, type Agente } from "./data/agentes";
+
+// Ruta pública dedicada de cada agente que no es el Setter (que ya tiene su
+// propia página de demo en vivo en /setter, sin landing de marketing).
+const RUTA_A_AGENTE: Record<string, string> = {
+  "/sofia-restaurantes": "sofia",
+  "/marcos": "marcos",
+  "/maria": "maria",
+  "/pia": "pia",
+  "/emanuel": "emanuel",
+  "/javier": "javier",
+};
 
 export default function App() {
   const { t, i18n } = useTranslation();
   const [agenteAbierto, setAgenteAbierto] = useState<Agente | null>(null);
   const [cuestionarioAbierto, setCuestionarioAbierto] = useState(false);
   const [nichoPreseleccionado, setNichoPreseleccionado] = useState<string | undefined>(undefined);
-  const esRutaSetter = window.location.pathname.replace(/\/+$/, "") === "/setter";
+  const ruta = window.location.pathname.replace(/\/+$/, "") || "/";
+  const esRutaSetter = ruta === "/setter";
+  const agenteDeRuta = RUTA_A_AGENTE[ruta];
 
   useEffect(() => {
     document.documentElement.lang = i18n.language;
-    if (esRutaSetter) return;
+    if (esRutaSetter || agenteDeRuta) return;
     document.title = t("meta.title");
     document.querySelector('meta[name="description"]')?.setAttribute("content", t("meta.description"));
-  }, [i18n.language, t, esRutaSetter]);
+  }, [i18n.language, t, esRutaSetter, agenteDeRuta]);
 
   function abrirCuestionario(nicho?: string) {
     setNichoPreseleccionado(nicho);
@@ -39,6 +53,10 @@ export default function App() {
 
   if (esRutaSetter) {
     return <SetterDemoPublica />;
+  }
+
+  if (agenteDeRuta) {
+    return <AgentLanding agenteId={agenteDeRuta} />;
   }
 
   return (
