@@ -13,7 +13,23 @@ interface Analisis {
 interface Mensaje {
   rol: "usuario" | "setter" | "sistema";
   texto: string;
+  tipo?: "texto" | "audio";
 }
+
+interface MensajeSetter {
+  tipo: "texto" | "audio";
+  contenido: string;
+}
+
+// El Setter contesta con varios mensajes cortos. Los mostramos de a uno, con el
+// indicador de "escribiendo" en el medio y una pausa proporcional a lo que
+// tardaría alguien en tipearlos — si aparecen todos juntos se nota el bot.
+function demoraDeTipeo(texto: string) {
+  const palabras = texto.split(/\s+/).filter(Boolean).length;
+  return Math.min(Math.max(palabras * 170, 900), 3500);
+}
+
+const esperar = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function TypingDots() {
   return (
@@ -141,7 +157,19 @@ export default function SetterDemoPublica() {
       }
 
       setMsgsUsados(data.mensajes_usados || 0);
-      setMensajes((prev) => [...prev, { rol: "setter", texto: data.respuesta }]);
+
+      // `mensajes` es el formato nuevo (varios globos); `respuesta` queda como
+      // fallback por si el server todavía no está actualizado.
+      const salida: MensajeSetter[] = Array.isArray(data.mensajes) && data.mensajes.length
+        ? data.mensajes
+        : [{ tipo: "texto", contenido: data.respuesta }];
+
+      for (let i = 0; i < salida.length; i++) {
+        const m = salida[i];
+        await esperar(m.tipo === "audio" ? 1200 : demoraDeTipeo(m.contenido));
+        setMensajes((prev) => [...prev, { rol: "setter", texto: m.contenido, tipo: m.tipo }]);
+        if (i < salida.length - 1) await esperar(400);
+      }
 
       if (data.lead_calificado) {
         setMensajes((prev) => [...prev, {
@@ -295,6 +323,16 @@ export default function SetterDemoPublica() {
                       style={{ background: "rgba(245,158,11,0.1)", border: "1px solid rgba(245,158,11,0.25)", color: "#f59e0b" }}
                     >
                       {m.texto}
+                    </div>
+                  ) : m.tipo === "audio" ? (
+                    <div
+                      className="max-w-[80%] px-3 py-2.5 rounded-2xl"
+                      style={{ background: "var(--film-raised)", borderBottomLeftRadius: 4 }}
+                    >
+                      <div className="text-[11px] mb-1.5 flex items-center gap-1" style={{ color: ACENTO }}>
+                        🎤 Audio
+                      </div>
+                      <audio controls src={m.texto} className="max-w-full" style={{ height: 34 }} />
                     </div>
                   ) : (
                     <div
