@@ -49,7 +49,8 @@
   "agentesSection": {
     "title": "Siete empleados que nunca duermen",
     "subtitle": "Cada agente trabaja 24 horas, 7 días, sin vacaciones ni excusas. Uno para cada nicho. Todos con tu voz.",
-    "verDemo": "Hablar con {{nombre}}"
+    "verDemo": "Hablar con {{nombre}}",
+    "contratar": "Quiero contratar a {{nombre}}"
   },
   "agentes": {
     "sofia": {

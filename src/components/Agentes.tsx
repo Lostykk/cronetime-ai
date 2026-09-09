@@ -27,16 +27,14 @@ export default function Agentes() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {AGENTES.map((a, i) => (
-            <motion.a
+            <motion.div
               key={a.id}
-              href={RUTA_AGENTE[a.id]}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ delay: (i % 3) * 0.08, duration: 0.5 }}
-              whileHover={{ y: -4 }}
-              className="rounded-2xl p-6 text-left block no-underline"
-              style={{ background: "var(--film-raised)", border: "1px solid var(--film-border)", color: "inherit" }}
+              className="rounded-2xl p-6 text-left"
+              style={{ background: "var(--film-raised)", border: "1px solid var(--film-border)" }}
             >
               <div className="flex items-center gap-4">
                 <AgentAvatar agente={a} size={56} />
@@ -46,10 +44,23 @@ export default function Agentes() {
                 </div>
               </div>
               <p className="text-sm mt-4 leading-relaxed" style={{ color: "var(--muted)" }}>{a.descripcion}</p>
-              <div className="mt-4 text-sm font-semibold flex items-center gap-1.5" style={{ color: a.color }}>
-                {t("agentesSection.verDemo", { nombre: a.nombre })} <span aria-hidden>→</span>
+              <div className="mt-4 flex flex-col gap-2">
+                <a
+                  href={RUTA_AGENTE[a.id]}
+                  className="block text-center text-sm font-semibold rounded-lg px-4 py-2.5 no-underline"
+                  style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", color: "var(--bone)" }}
+                >
+                  💬 {t("agentesSection.verDemo", { nombre: a.nombre })}
+                </a>
+                <a
+                  href={`${RUTA_AGENTE[a.id]}#contratar`}
+                  className="block text-center text-sm font-bold rounded-lg px-4 py-2.5 no-underline"
+                  style={{ background: a.color, color: "#0A0A0C" }}
+                >
+                  {t("agentesSection.contratar", { nombre: a.nombre })} →
+                </a>
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
       </div>

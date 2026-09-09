@@ -57,7 +57,9 @@ interface Props {
 
 export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSetter = false, saludoInicial }: Props) {
   const [sessionId] = useState(() => crypto.randomUUID());
-  const [fase, setFase] = useState<"ig" | "configurar" | "chat">(esSetter ? "ig" : "chat");
+  const [fase, setFase] = useState<"negocio" | "ig" | "configurar" | "chat">("negocio");
+  const [negocioNombre, setNegocioNombre] = useState("");
+  const [negocioCiudad, setNegocioCiudad] = useState("");
   const [igInput, setIgInput] = useState("");
   const [analizando, setAnalizando] = useState(false);
   const [analisis, setAnalisis] = useState<Analisis | null>(null);
@@ -66,13 +68,22 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
   const [archivo, setArchivo] = useState<File | null>(null);
   const [subiendoArchivo, setSubiendoArchivo] = useState(false);
   const [errorArchivo, setErrorArchivo] = useState("");
-  const [mensajes, setMensajes] = useState<Mensaje[]>(esSetter ? [] : [{ rol: "setter", texto: saludoInicial }]);
+  const [mensajes, setMensajes] = useState<Mensaje[]>([]);
   const [input, setInput] = useState("");
   const [enviando, setEnviando] = useState(false);
   const [errorChat, setErrorChat] = useState("");
   const [limite, setLimite] = useState(false);
   const [msgsUsados, setMsgsUsados] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  function iniciarDemo() {
+    if (esSetter) {
+      setFase("ig");
+    } else {
+      setFase("chat");
+      setMensajes([{ rol: "setter", texto: saludoInicial }]);
+    }
+  }
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -103,9 +114,10 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
 
   function saltarIG() {
     setFase("chat");
+    const equipo = negocioNombre.trim() || "Método Escala";
     setMensajes([{
       rol: "setter",
-      texto: "¡Hola! Soy Martina, del equipo de Método Escala 👋 ¿En qué tipo de negocio o programa trabajás?",
+      texto: `¡Hola! Soy Martina, del equipo de ${equipo} 👋 ¿En qué tipo de negocio o programa trabajás?`,
     }]);
   }
 
@@ -148,7 +160,13 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
       const res = await fetch(`${API}/api/demo-publica/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ session_id: sessionId, mensaje: texto, tipo_agente: agenteId }),
+        body: JSON.stringify({
+          session_id: sessionId,
+          mensaje: texto,
+          tipo_agente: agenteId,
+          negocio_nombre: negocioNombre.trim(),
+          negocio_ciudad: negocioCiudad.trim(),
+        }),
       });
       const data = await res.json();
 
@@ -209,7 +227,7 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
           <div className="text-sm font-semibold">{nombre}</div>
           <div className="text-[11px] flex items-center gap-1.5" style={{ color: "var(--signal-green)" }}>
             <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--signal-green)" }} />
-            {fase === "ig" || fase === "configurar" ? "Configurando nicho..." : "En línea · responde al instante"}
+            {fase === "chat" ? "En línea · responde al instante" : "Configurando nicho..."}
           </div>
         </div>
         {fase === "chat" && (
@@ -218,6 +236,44 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
           </div>
         )}
       </div>
+
+      {fase === "negocio" && (
+        <div className="p-6 text-center">
+          <div className="text-2xl mb-2">{emoji}</div>
+          <div className="text-sm font-bold mb-1.5" style={{ color: acento }}>
+            ¿Querés ver cómo {nombre} funciona para tu negocio?
+          </div>
+          <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--muted)" }}>
+            Ingresá el nombre de tu negocio y {nombre} se adaptará a él. Si preferís probarlo de forma genérica, dejalo en blanco y continuá.
+          </p>
+
+          <div className="flex flex-col gap-2.5 text-left">
+            <input
+              value={negocioNombre}
+              onChange={(e) => setNegocioNombre(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && iniciarDemo()}
+              placeholder="Nombre de tu negocio (opcional)"
+              className="px-3.5 py-2.5 rounded-xl text-sm outline-none"
+              style={{ background: "var(--film-black)", border: `1px solid ${acento}33`, color: "var(--bone)" }}
+            />
+            <input
+              value={negocioCiudad}
+              onChange={(e) => setNegocioCiudad(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && iniciarDemo()}
+              placeholder="Ciudad (opcional)"
+              className="px-3.5 py-2.5 rounded-xl text-sm outline-none"
+              style={{ background: "var(--film-black)", border: `1px solid ${acento}33`, color: "var(--bone)" }}
+            />
+            <button
+              onClick={iniciarDemo}
+              className="px-4 py-2.5 rounded-xl font-bold text-sm"
+              style={{ background: acento, color: "#0A0A0C" }}
+            >
+              {negocioNombre.trim() ? `Hablar con ${nombre} como ${negocioNombre.trim()}` : "Continuar con demo genérica"}
+            </button>
+          </div>
+        </div>
+      )}
 
       {fase === "ig" && (
         <div className="p-6">

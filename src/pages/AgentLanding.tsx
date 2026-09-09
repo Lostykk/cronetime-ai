@@ -31,7 +31,9 @@ export default function AgentLanding({ agenteId }: { agenteId: string }) {
   const { t } = useTranslation();
   const agente = useAgenteById(agenteId);
   const contenido = t(`landing.${agenteId}`, { returnObjects: true }) as LandingContent;
-  const [cuestionarioAbierto, setCuestionarioAbierto] = useState(false);
+  // Llegar con #contratar (desde el botón "Quiero contratar a X" de la
+  // landing principal) abre directo el formulario de contratación.
+  const [cuestionarioAbierto, setCuestionarioAbierto] = useState(() => window.location.hash === "#contratar");
 
   useEffect(() => {
     document.title = agente ? `${agente.nombre} — CroneTime AI` : "CroneTime AI";
@@ -171,7 +173,7 @@ export default function AgentLanding({ agenteId }: { agenteId: string }) {
         </section>
 
         {/* CTA FINAL */}
-        <section className="py-16 border-t text-center" style={{ borderColor: "var(--film-border)" }}>
+        <section id="contratar" className="py-16 border-t text-center" style={{ borderColor: "var(--film-border)" }}>
           <h2 className="font-display font-extrabold uppercase mb-4" style={{ fontSize: "clamp(24px,3.5vw,36px)", letterSpacing: "-0.02em" }}>
             Activo en 48 horas
           </h2>

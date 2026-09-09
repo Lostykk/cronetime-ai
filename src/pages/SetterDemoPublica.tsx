@@ -1,9 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import AgentDemoWidget from "../components/AgentDemoWidget";
+import Cuestionario from "../components/Cuestionario";
 
 const ACENTO = "#22D3EE";
 
 export default function SetterDemoPublica() {
+  // Llegar con #contratar (desde el botón "Quiero contratar a Martina — Setter"
+  // de la landing principal) abre directo el formulario de contratación.
+  const [cuestionarioAbierto, setCuestionarioAbierto] = useState(() => window.location.hash === "#contratar");
+
   useEffect(() => {
     document.title = "Probá el Setter de IA — CroneTime AI";
   }, []);
@@ -28,11 +34,25 @@ export default function SetterDemoPublica() {
 
       <AgentDemoWidget agenteId="setter" nombre="Martina · Setter" emoji="🎯" acento={ACENTO} esSetter saludoInicial="" />
 
+      <button
+        onClick={() => setCuestionarioAbierto(true)}
+        className="mt-6 px-6 py-3 rounded-xl font-bold text-sm"
+        style={{ background: ACENTO, color: "#0A0A0C" }}
+      >
+        Quiero al Setter para mi negocio →
+      </button>
+
       <div className="mt-6 text-xs text-center max-w-sm" style={{ color: "var(--muted)" }}>
         Demo de CroneTime AI · Sin cuenta · Máx. 15 mensajes por sesión
         <br />
         <a href="/" className="text-projector">cronetimeai.com</a>
       </div>
+
+      <AnimatePresence>
+        {cuestionarioAbierto && (
+          <Cuestionario nichoInicial={undefined} onClose={() => setCuestionarioAbierto(false)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
