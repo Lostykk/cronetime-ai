@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { VoiceButton } from "./VoiceButton";
 
 const API = "https://sofia-server-production-5c12.up.railway.app";
 const MENSAJES_MAX = 15;
@@ -75,6 +76,7 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
   const [limite, setLimite] = useState(false);
   const [msgsUsados, setMsgsUsados] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   function iniciarDemo() {
     if (esSetter) {
@@ -148,10 +150,31 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
     setMensajes([{ rol: "setter", texto: mensajeBienvenida }]);
   }
 
-  async function enviar() {
-    if (!input.trim() || enviando || limite) return;
-    const texto = input.trim();
-    setInput("");
+  // Solo se reproduce en voz alta la respuesta a un mensaje que el visitante
+  // mandó por voz — si escribe, el chat se queda callado (evita audio
+  // inesperado para quien está usando el demo por texto).
+  async function reproducirRespuesta(texto: string) {
+    try {
+      const res = await fetch(`${API}/api/voz/sintetizar`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texto }),
+      });
+      if (!res.ok) return;
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      audioRef.current?.pause();
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      audio.onended = () => URL.revokeObjectURL(url);
+      await audio.play();
+    } catch {
+      // Sin audio de vuelta no rompemos el chat: el texto ya se muestra igual.
+    }
+  }
+
+  async function enviarTexto(texto: string, porVoz = false) {
+    if (!texto || enviando || limite) return;
     setErrorChat("");
     setMensajes((prev) => [...prev, { rol: "usuario", texto }]);
     setEnviando(true);
@@ -195,6 +218,11 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
         if (i < salida.length - 1) await esperar(400);
       }
 
+      if (porVoz) {
+        const textoHablado = salida.filter((m) => m.tipo === "texto").map((m) => m.contenido).join(" ");
+        if (textoHablado) reproducirRespuesta(textoHablado);
+      }
+
       if (data.lead_calificado) {
         setMensajes((prev) => [...prev, {
           rol: "sistema",
@@ -206,6 +234,13 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
     } finally {
       setEnviando(false);
     }
+  }
+
+  function enviar() {
+    if (!input.trim()) return;
+    const texto = input.trim();
+    setInput("");
+    enviarTexto(texto, false);
   }
 
   return (
@@ -421,6 +456,11 @@ export default function AgentDemoWidget({ agenteId, nombre, emoji, acento, esSet
                   disabled={enviando}
                   className="flex-1 px-4 py-2.5 rounded-full text-sm outline-none"
                   style={{ background: "var(--film-black)", border: `1px solid ${input ? acento + "66" : "var(--film-border)"}`, color: "var(--bone)" }}
+                />
+                <VoiceButton
+                  acento={acento}
+                  disabled={enviando || limite}
+                  onTranscript={(texto) => enviarTexto(texto, true)}
                 />
                 <button
                   onClick={enviar}
