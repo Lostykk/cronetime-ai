@@ -20,6 +20,7 @@
     "nextAria": "Próximo agente",
     "dotAria": "Ver {{nombre}}",
     "hablarCon": "Falar com {{nombre}}",
+    "vistaPreviaAria": "Prévia de {{nombre}}",
     "perMes": "/mês",
     "instalacionLabel": "instalação"
   },

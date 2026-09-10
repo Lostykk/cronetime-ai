@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { AGENTES_BASE, type Agente } from "../data/agentes";
+import { AGENTES_BASE, RUTA_AGENTE, type Agente } from "../data/agentes";
 import { useAgentes } from "../hooks/useAgentes";
 import AgentAvatar from "./AgentAvatar";
 
@@ -51,7 +51,13 @@ function CartaAgente({ agente, i, indiceActivo, onOpen, anchoCarta }: { agente: 
           justifyContent: "space-between",
         }}
       >
-        <AgentAvatar agente={agente} size={54} />
+        <button
+          onClick={() => onOpen(agente)}
+          aria-label={t("hero.vistaPreviaAria", { nombre: agente.nombre })}
+          style={{ background: "none", border: "none", padding: 0, cursor: "pointer" }}
+        >
+          <AgentAvatar agente={agente} size={54} />
+        </button>
         <h3 className="font-display font-extrabold uppercase leading-none mt-1" style={{ letterSpacing: "-0.02em", fontSize: 22 }}>{agente.nombre}</h3>
         <p className="leading-none" style={{ color: "var(--muted)", fontSize: 13 }}>{agente.nicho}</p>
         <p
@@ -79,13 +85,13 @@ function CartaAgente({ agente, i, indiceActivo, onOpen, anchoCarta }: { agente: 
           <div className="leading-none" style={{ color: "var(--muted)", fontSize: 11 }}>+ US${agente.setup} {t("hero.instalacionLabel")}</div>
         </div>
 
-        <button
-          onClick={() => onOpen(agente)}
-          className="w-full mt-1 rounded-xl font-semibold text-sm py-2.5"
+        <a
+          href={RUTA_AGENTE[agente.id]}
+          className="block w-full mt-1 rounded-xl font-semibold text-sm py-2.5 text-center no-underline"
           style={{ background: agente.color, color: "#0A0A0C" }}
         >
           {t("hero.hablarCon", { nombre: agente.nombre })}
-        </button>
+        </a>
       </div>
     </div>
   );

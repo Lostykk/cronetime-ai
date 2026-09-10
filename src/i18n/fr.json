@@ -20,6 +20,7 @@
     "nextAria": "Agent suivant",
     "dotAria": "Voir {{nombre}}",
     "hablarCon": "Parler à {{nombre}}",
+    "vistaPreviaAria": "Aperçu de {{nombre}}",
     "perMes": "/mois",
     "instalacionLabel": "installation"
   },
